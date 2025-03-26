@@ -37,7 +37,7 @@ jobs:
           path: dist/
           retention-days: 1
 
-  staging-deploy:
+  production-deploy:
     name: Staging Deployment
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
