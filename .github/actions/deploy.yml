@@ -1,0 +1,87 @@
+name: NANUCLOUD(R) Production Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      
+      - name: Enable Corepack
+        run: corepack enable
+      
+      - name: Install dependencies
+        run: yarn install
+      
+      - name: Build project
+        run: yarn build
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-files
+          path: dist/
+          retention-days: 1
+
+  staging-deploy:
+    name: Staging Deployment
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: DEPLOY
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+          path: dist/
+      
+      - name: S3 Content Copy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_PROD }} 
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          aws s3 sync dist/ s3://$S3_BUCKET_NAME --delete --region $AWS_REGION
+      
+      - name: CloudFront Deploy
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          PATHS: '/*'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'us-east-1'
+          DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_PROD }}
+
+  notify:
+    name: Notification
+    needs: [build, staging-deploy]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check build result
+        if: needs.build.result == 'failure'
+        run: echo "Build failed" && exit 1
+      
+      - name: Check deploy result
+        if: needs.staging-deploy.result == 'failure'
+        run: echo "Deploy failed" && exit 1
+      
+      - name: Success notification
+        if: needs.staging-deploy.result == 'success'
+        run: echo "Successfully deployed to staging"
