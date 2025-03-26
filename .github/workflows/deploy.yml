@@ -1,5 +1,4 @@
 name: NANUCLOUD(R) Production Deploy
-
 on:
   push:
     branches:
@@ -7,7 +6,6 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   build:
     name: Build Verification
@@ -31,21 +29,20 @@ jobs:
         run: yarn build
       
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-files
           path: dist/
           retention-days: 1
-
   production-deploy:
-    name: Staging Deployment
+    name: Production Deployment
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: DEPLOY
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-files
           path: dist/
@@ -67,7 +64,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'us-east-1'
           DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_PROD }}
-
   notify:
     name: Notification
     needs: [build, production-deploy]
@@ -79,9 +75,9 @@ jobs:
         run: echo "Build failed" && exit 1
       
       - name: Check deploy result
-        if: needs.staging-deploy.result == 'failure'
+        if: needs.production-deploy.result == 'failure'
         run: echo "Deploy failed" && exit 1
       
       - name: Success notification
-        if: needs.staging-deploy.result == 'success'
-        run: echo "Successfully deployed to staging"
+        if: needs.production-deploy.result == 'success'
+        run: echo "Successfully deployed to production"
