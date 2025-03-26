@@ -70,7 +70,7 @@ jobs:
 
   notify:
     name: Notification
-    needs: [build, staging-deploy]
+    needs: [build, production-deploy]
     if: always()
     runs-on: ubuntu-latest
     steps:
