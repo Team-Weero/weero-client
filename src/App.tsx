@@ -1,4 +1,5 @@
-import { Outlet, Route, Router, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
+import MainPage from "./pages/MainPage";
 
 function Layout() {
   return (
@@ -11,7 +12,9 @@ function Layout() {
 function App() {
   return (
     <Routes>
-      <Route />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<MainPage />} />
+      </Route>
     </Routes>
   );
 }
