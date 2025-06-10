@@ -1,9 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import "./index.css";
-import HomePage from "./page/HomePage";
+import WeeCommunity from "./pages/WeeCommunity";
 
 function App() {
-  return <Routes></Routes>;
+  return (
+    <Routes>
+      <Route path="wee-community" element={<WeeCommunity />} />
+    </Routes>
+  );
 }
 
 export default App;
