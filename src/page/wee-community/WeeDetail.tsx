@@ -3,8 +3,9 @@ import BoardHeader from "../../components/community/BoardHeader";
 import styled from "@emotion/styled";
 import { theme } from "../../style/theme";
 import blankHeart from "../../assets/heart.svg";
+import Comment from "../../components/community/Comment";
 
-const dummy = {
+const PostDummy = {
   community: "또상 게시판",
   title: "대마고에서 살아남는 꿀팁 공유!!",
   author: "주문하신 하마",
@@ -28,20 +29,26 @@ const dummy = {
 한 허리를`,
 };
 
+const CommnetDummy = {
+  userName: "주문하신 하마",
+  commnet: "감사합니다",
+  likes: 63,
+};
+
 const WeeDetail = () => {
   return (
     <div>
       <Container>
         <BoardHeader
-          community={dummy.community}
-          title={dummy.title}
-          author={dummy.author}
-          date={dummy.date}
-          views={dummy.views}
+          community={PostDummy.community}
+          title={PostDummy.title}
+          author={PostDummy.author}
+          date={PostDummy.date}
+          views={PostDummy.views}
         />
         <ContentSection>
           <div>
-            {dummy.content.split("\n").map((line, idx) => (
+            {PostDummy.content.split("\n").map((line, idx) => (
               <React.Fragment key={idx}>
                 {line}
                 <br />
@@ -51,13 +58,18 @@ const WeeDetail = () => {
 
           <LikeWrap>
             <Like>
-              {dummy.likes}
+              {PostDummy.likes}
               <img src={blankHeart} alt="" />
             </Like>
           </LikeWrap>
         </ContentSection>
         <CommentSection>
           <Separate>댓글</Separate>
+          <Comment
+            userName={CommnetDummy.userName}
+            comment={CommnetDummy.commnet}
+            likes={CommnetDummy.likes}
+          />
         </CommentSection>
       </Container>
     </div>
@@ -74,6 +86,7 @@ const Separate = styled.div`
   font-weight: 700;
   background-color: ${theme.color.gray[3]};
   border-bottom: 1px solid ${theme.color.gray[1]};
+  color: ${theme.color.gray[1]};
 `;
 const CommentSection = styled.section`
   width: 100%;
