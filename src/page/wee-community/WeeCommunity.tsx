@@ -1,7 +1,9 @@
+import CreatePost from "../../components/community/CreatePost";
 import NameBar from "../../components/community/NameBar";
 import Post from "../../components/community/Post";
 import Banner from "../../components/system/Banner";
 import NavBar from "../../components/system/NavBar";
+import styled from "@emotion/styled";
 
 const dummyPosts = [
   {
@@ -49,11 +51,20 @@ const dummyPosts = [
     author: "유머천재",
     timeAgo: "5시간 전",
   },
+  {
+    id: 6,
+    title: "하마쌤 레전드 어록 정리ㅋㅋ",
+    views: 120,
+    likes: 99,
+    comments: 58,
+    author: "유머천재",
+    timeAgo: "5시간 전",
+  },
 ];
 
 const WeeCommunity = () => {
   return (
-    <div>
+    <Container>
       <NavBar text="또상 게시판" />
       <Banner SmallText="또래 상담부 친구들이 운영하는" BigText="또상 게시판" />
       <NameBar name="또상 게시판" />
@@ -68,8 +79,15 @@ const WeeCommunity = () => {
           timeAgo={post.timeAgo}
         />
       ))}
-    </div>
+      <CreatePost />
+    </Container>
   );
 };
+
+const Container = styled.div`
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+`;
 
 export default WeeCommunity;
