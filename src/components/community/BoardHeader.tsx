@@ -1,9 +1,9 @@
-import React from "react";
 import styled from "@emotion/styled";
 import arrow from "../../assets/arrow.svg";
 import dot from "../../assets/dot-gray.svg";
 import view from "../../assets/open-eye.svg";
 import { theme } from "../../style/theme";
+import { Link } from "react-router-dom";
 
 interface Prop {
   community: string;
@@ -17,7 +17,10 @@ const BoardHeader = ({ community, title, author, date, views }: Prop) => {
   return (
     <Container>
       <TopSection>
-        <img src={arrow} />
+        <Link to="/wee-community">
+          <img src={arrow} />
+        </Link>
+
         {community}
       </TopSection>
       <TitleSection>

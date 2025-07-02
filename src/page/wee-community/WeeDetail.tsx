@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { theme } from "../../style/theme";
 import blankHeart from "../../assets/heart.svg";
 import Comment from "../../components/community/Comment";
+import BottomInput from "../../components/system/BottomInput";
 
 const PostDummy = {
   community: "또상 게시판",
@@ -29,11 +30,38 @@ const PostDummy = {
 한 허리를`,
 };
 
-const CommnetDummy = {
-  userName: "주문하신 하마",
-  commnet: "감사합니다",
-  likes: 63,
-};
+const CommnetDummy = [
+  {
+    id: 1,
+    userName: "주문하신 하마",
+    commnet: "감사합니다",
+    likes: 63,
+  },
+  {
+    id: 2,
+    userName: "주문하신 하마",
+    commnet: "감사합니다",
+    likes: 63,
+  },
+  {
+    id: 3,
+    userName: "주문하신 하마",
+    commnet: "감사합니다",
+    likes: 63,
+  },
+  {
+    id: 4,
+    userName: "주문하신 하마",
+    commnet: "감사합니다",
+    likes: 63,
+  },
+  {
+    id: 5,
+    userName: "주문하신 하마",
+    commnet: "감사합니다",
+    likes: 63,
+  },
+];
 
 const WeeDetail = () => {
   return (
@@ -65,16 +93,27 @@ const WeeDetail = () => {
         </ContentSection>
         <CommentSection>
           <Separate>댓글</Separate>
-          <Comment
-            userName={CommnetDummy.userName}
-            comment={CommnetDummy.commnet}
-            likes={CommnetDummy.likes}
-          />
+          {CommnetDummy.map((comment) => (
+            <Comment
+              key={comment.id}
+              userName={comment.userName}
+              comment={comment.commnet}
+              likes={comment.likes}
+            />
+          ))}
+          <InputSpacer />
         </CommentSection>
+        <BottomInput placeholder="댓글 남기기" />
       </Container>
     </div>
   );
 };
+
+const InputSpacer = styled.div`
+  width: 100%;
+  height: 80px;
+  background-color: white;
+`;
 
 const Separate = styled.div`
   width: 100%;
@@ -116,6 +155,7 @@ const Like = styled.div`
   font-weight: 500;
   color: ${theme.color.gray[1]};
   align-items: center;
+  cursor: pointer;
 `;
 const ContentSection = styled.section`
   width: 100%;

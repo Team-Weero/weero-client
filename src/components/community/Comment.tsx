@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { theme } from "../../style/theme";
 import blankHeart from "../../assets/heart.svg";
@@ -12,7 +11,7 @@ interface Prop {
 const Comment = ({ userName, comment, likes }: Prop) => {
   return (
     <CommnetContainer>
-      <h3>{userName}</h3>
+      <p>{userName}</p>
       <div>{comment}</div>
       <Like>
         <img src={blankHeart} alt="" />
@@ -38,7 +37,7 @@ const CommnetContainer = styled.div`
   font-weight: 500;
   color: black;
   border-bottom: 1px solid ${theme.color.gray[3]};
-  h3 {
+  p {
     font-size: 14px;
   }
   div {
