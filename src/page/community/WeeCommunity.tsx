@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import CreatePost from "../../components/community/CreatePost";
 import NameBar from "../../components/community/NameBar";
 import Post from "../../components/community/Post";
@@ -79,7 +80,9 @@ const WeeCommunity = () => {
           timeAgo={post.timeAgo}
         />
       ))}
-      <CreatePost />
+      <Link to="/write-post">
+        <CreatePost />
+      </Link>
     </Container>
   );
 };

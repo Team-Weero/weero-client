@@ -31,7 +31,7 @@ const InputWrap = styled.div`
     padding-left: 16px;
     border-radius: 10px;
     :focus {
-      border: 1px solid black;
+      outline: 1px solid black;
     }
   }
 `;
