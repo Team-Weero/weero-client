@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./index.css";
-import WeeCommunity from "./pages/WeeCommunity";
-import HomePage from "./pages/HomePage";
+import WeeCommunity from "./page/WeeCommunity";
+import HomePage from "./page/HomePage";
 
 function App() {
   return (
