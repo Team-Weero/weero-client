@@ -87,11 +87,8 @@ const MiddleDiv = styled.div`
   border: 1px solid ${theme.color.main};
   height: 68px;
   border-radius: 20px;
-  width: 354px;
-  position: absolute;
-  top: 492px;
-  left: 50%;
-  transform: translateX(-50%);
+  width: min(354px, 90%);
+  margin: 20px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -154,7 +151,7 @@ const DayColumn = styled.div`
 const DayName = styled.div`
   font-size: 16px;
   font-weight: 400;
-  color: ${theme.color.gray};
+  color: ${theme.color.gray[1]};
 `;
 
 const DayNumber = styled.div<{ isToday: boolean }>`
