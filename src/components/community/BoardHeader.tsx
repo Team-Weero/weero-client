@@ -18,7 +18,7 @@ const BoardHeader = ({ community, title, author, date, views }: Prop) => {
     <Container>
       <TopSection>
         <Link to="/wee-community">
-          <img src={arrow} />
+          <img src={arrow} alt="뒤로 가기" />
         </Link>
 
         {community}

@@ -10,14 +10,14 @@ interface Prop {
 
 const Comment = ({ userName, comment, likes }: Prop) => {
   return (
-    <CommnetContainer>
+    <CommentContainer>
       <p>{userName}</p>
       <div>{comment}</div>
       <Like>
         <img src={blankHeart} alt="" />
         {likes}
       </Like>
-    </CommnetContainer>
+    </CommentContainer>
   );
 };
 
@@ -28,7 +28,7 @@ const Like = styled.span`
   font-size: 12px;
   color: ${theme.color.gray[1]};
 `;
-const CommnetContainer = styled.div`
+const CommentContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;

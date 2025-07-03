@@ -30,35 +30,35 @@ const PostDummy = {
 한 허리를`,
 };
 
-const CommnetDummy = [
+const CommentDummy = [
   {
     id: 1,
     userName: "주문하신 하마",
-    commnet: "감사합니다",
+    comment: "감사합니다",
     likes: 63,
   },
   {
     id: 2,
     userName: "주문하신 하마",
-    commnet: "감사합니다",
+    comment: "감사합니다",
     likes: 63,
   },
   {
     id: 3,
     userName: "주문하신 하마",
-    commnet: "감사합니다",
+    comment: "감사합니다",
     likes: 63,
   },
   {
     id: 4,
     userName: "주문하신 하마",
-    commnet: "감사합니다",
+    comment: "감사합니다",
     likes: 63,
   },
   {
     id: 5,
     userName: "주문하신 하마",
-    commnet: "감사합니다",
+    comment: "감사합니다",
     likes: 63,
   },
 ];
@@ -87,17 +87,17 @@ const WeeDetail = () => {
           <LikeWrap>
             <Like>
               {PostDummy.likes}
-              <img src={blankHeart} alt="" />
+              <img src={blankHeart} alt="좋아요" />
             </Like>
           </LikeWrap>
         </ContentSection>
         <CommentSection>
           <Separate>댓글</Separate>
-          {CommnetDummy.map((comment) => (
+          {CommentDummy.map((comment) => (
             <Comment
               key={comment.id}
               userName={comment.userName}
-              comment={comment.commnet}
+              comment={comment.comment}
               likes={comment.likes}
             />
           ))}

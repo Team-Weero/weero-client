@@ -28,7 +28,7 @@ const Post = ({ title, views, likes, comments, author, timeAgo }: Prop) => {
           {likes}
         </Item>
         <Item>
-          <img src={comment} alt="view" />
+          <img src={comment} alt="comment" />
           {comments}
         </Item>
       </ItemWrap>

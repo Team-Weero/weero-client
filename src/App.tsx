@@ -11,10 +11,10 @@ function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        <Route path="wee-community" element={<WeeCommunity />} />
-        <Route path="wee-detail" element={<WeeDetail />} />
-        <Route path="write-post" element={<WritePost />} />
-        <Route path="community" element={<Community />} />
+        <Route path="/wee-community" element={<WeeCommunity />} />
+        <Route path="/wee-detail" element={<WeeDetail />} />
+        <Route path="/write-post" element={<WritePost />} />
+        <Route path="/community" element={<Community />} />
       </Routes>
     </BrowserRouter>
   );

@@ -5,7 +5,7 @@ import { theme } from "../../style/theme";
 const CreatePost = () => {
   return (
     <Container>
-      <img src={createPost} alt="" />
+      <img src={createPost} alt="게시물 작성" />
       <p>글쓰기</p>
     </Container>
   );
