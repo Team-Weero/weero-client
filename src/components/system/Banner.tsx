@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { theme } from "../style/theme";
-import backToSchool from "../assets/back-to-school.svg";
+import backToSchool from "../../assets/back-to-school.svg";
+import { theme } from "../../style/theme";
 
 interface Props {
   SmallText: string;

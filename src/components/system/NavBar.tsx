@@ -1,14 +1,36 @@
 import styled from "@emotion/styled";
-import { theme } from "../style/theme";
-import bell from "../assets/bell.svg";
-import person from "../assets/person.svg";
+import bell from "../../assets/bell.svg";
+import person from "../../assets/person.svg";
+import { theme } from "../../style/theme";
+import { Link } from "react-router-dom";
 
 interface Prop {
   text: string;
 }
 
 const NavBar = ({ text }: Prop) => {
-  const navItems = ["홈", "게시판", "또상 게시판", "상담", "상담 신청"];
+  const navItems = [
+    {
+      item: "홈",
+      link: "/",
+    },
+    {
+      item: "게시판",
+      link: "/community",
+    },
+    {
+      item: "또상 게시판",
+      link: "/wee-community",
+    },
+    {
+      item: "상담",
+      link: "/councel",
+    },
+    {
+      item: "상담 신청",
+      link: "/councel-apply",
+    },
+  ];
   return (
     <NavContainer>
       <NavSection>
@@ -24,7 +46,13 @@ const NavBar = ({ text }: Prop) => {
       </NavSection>
       <Bar>
         {navItems.map((item) => (
-          <Item key={item}>{item}</Item>
+          <Link
+            key={item.item}
+            to={item.link}
+            style={{ textDecoration: "none" }}
+          >
+            <Item>{item.item}</Item>
+          </Link>
         ))}
       </Bar>
     </NavContainer>
@@ -35,6 +63,7 @@ const Item = styled.div`
   height: 32px;
   display: flex;
   align-items: flex-start;
+  color: black;
 `;
 const Bar = styled.nav`
   height: 60px;
