@@ -63,12 +63,12 @@ const dummyPosts = [
   },
 ];
 
-const WeeCommunity = () => {
+const Community = () => {
   return (
     <Container>
-      <NavBar text="또상 게시판" />
-      <Banner SmallText="또래 상담부 친구들이 운영하는" BigText="또상 게시판" />
-      <NameBar name="또상 게시판" />
+      <NavBar text="고민 게시판" />
+      <Banner SmallText="안녕하세요 주문하신 하마 님" BigText="고민 게시판" />
+      <NameBar name="고민 게시판" />
       {dummyPosts.map((post) => (
         <Link
           key={post.id}
@@ -98,4 +98,4 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-export default WeeCommunity;
+export default Community;
