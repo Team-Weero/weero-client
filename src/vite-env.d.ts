@@ -1,3 +1,1 @@
-// <reference types="vite/client" />
-declare module "*.css";
-declare module "*.svg";
+/// <reference types="vite/client" />
