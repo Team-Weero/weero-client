@@ -5,6 +5,7 @@ import WeeDetail from "./page/community/WeeDetail";
 import WritePost from "./page/community/WritePost";
 import ScrollToTop from "./components/ScrollToTop";
 import Community from "./page/community/Community";
+import AlarmPage from "./page/alarm/AlarmPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/wee-detail" element={<WeeDetail />} />
         <Route path="/write-post" element={<WritePost />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/alarm" element={<AlarmPage />} />
       </Routes>
     </BrowserRouter>
   );

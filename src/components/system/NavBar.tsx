@@ -37,7 +37,10 @@ const NavBar = ({ text }: Prop) => {
         <Wrap>
           <h2>{text}</h2>
           <IconWrap>
-            <img src={bell} alt="알림" />
+            <Link to="/alarm">
+              <img src={bell} alt="알림" />
+            </Link>
+
             <MypageIcon>
               <img src={person} alt="마이페이지" />
             </MypageIcon>
