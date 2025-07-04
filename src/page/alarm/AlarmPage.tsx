@@ -47,7 +47,6 @@ const TopSection = styled.section`
     position: absolute;
     left: 12px;
   }
-  padding-bottom: 24px;
   border-bottom: 1px solid ${theme.color.gray[3]};
   padding: 70px 0 24px 0;
 `;
