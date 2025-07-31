@@ -6,6 +6,7 @@ import WritePost from "./page/community/WritePost";
 import ScrollToTop from "./components/ScrollToTop";
 import Community from "./page/community/Community";
 import AlarmPage from "./page/alarm/AlarmPage";
+import HomePage from "./page/HomePage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/write-post" element={<WritePost />} />
         <Route path="/community" element={<Community />} />
         <Route path="/alarm" element={<AlarmPage />} />
+        <Route path="/home-page" element={<HomePage />} />
       </Routes>
     </BrowserRouter>
   );
