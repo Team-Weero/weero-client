@@ -2,7 +2,7 @@ export const theme = {
   color: {
     main: "#00C951",
     error: "#DF2C2C",
-    success: "4DBAF4",
+    success: "#4DBAF4",
 
     gray: {
       1: "#848484",
