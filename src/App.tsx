@@ -22,7 +22,7 @@ function App() {
         <Route path="/alarm" element={<AlarmPage />} />
         <Route path="/home-page" element={<HomePage />} />
         <Route path="/chat-page" element={<ChatPage />} />
-        <Route path="chat-home" element={<ChatHome />} />
+        <Route path="/chat-home" element={<ChatHome />} />
       </Routes>
     </BrowserRouter>
   );
