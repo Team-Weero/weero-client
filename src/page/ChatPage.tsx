@@ -37,6 +37,7 @@ const ChatPage = () => {
           placeholder="메시지 입력"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => {}}
         />
         {message.trim() !== "" && (
           <SendButton>
