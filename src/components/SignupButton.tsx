@@ -1,24 +1,55 @@
 import styled from "@emotion/styled";
 
-const SignButton = () => {
+type Props = {
+  active: boolean; 
+  loading?: boolean;
+  onClick?: () => void;
+};
+
+const SignupButton = ({ onClick, active, loading }: Props) => {
+  const trulyDisabled = !!loading;
+
   return (
-    <>
-      <Sign>회원가입</Sign>
-    </>
+    <Sign
+      type="button"
+      onClick={onClick}
+      disabled={trulyDisabled}
+      $active={active && !trulyDisabled}
+      aria-disabled={!active || trulyDisabled}
+      aria-busy={!!loading}
+    >
+      {loading ? "가입 중..." : "회원가입"}
+    </Sign>
   );
 };
 
-const Sign = styled.button`
+export default SignupButton;
+
+const Sign = styled.button<{ $active: boolean }>`
   width: 346px;
   height: 48px;
-  padding: 0px 12px;
+  padding: 0 12px;
   border-radius: 5px;
   font-size: 20px;
   font-weight: 600;
   color: white;
-  background-color: ${({ theme }) => theme.color.gray[1]};
   border: none;
-  margin: 89px 0px 16px 28px;
-`;
+  margin: 48px 0 16px 28px;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
 
-export default SignButton;
+  background-color: ${({ theme, $active }) => ($active ? theme.color.main : theme.color.gray[1])};
+  cursor: ${({ $active }) => ($active ? "pointer" : "default")};
+
+  &:hover {
+    ${({ $active, theme }) =>
+      $active &&
+      `
+        background-color: ${theme.color.mainHover || theme.color.main};
+      `}
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+`;

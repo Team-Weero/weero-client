@@ -1,24 +1,56 @@
 import styled from "@emotion/styled";
 
-const LoginButton = () => {
+type LoginButtonProps = {
+  active: boolean;
+  loading?: boolean; 
+  onClick?: () => void;
+};
+
+const LoginButton = ({ active, loading, onClick }: LoginButtonProps) => {
+  const trulyDisabled = !!loading;
+
   return (
-    <>
-      <Login>로그인</Login>
-    </>
+    <LoginBtn
+      type="button"
+      onClick={onClick}
+      disabled={trulyDisabled}
+      $active={active && !trulyDisabled}
+      aria-disabled={!active || trulyDisabled}
+      aria-busy={!!loading}
+    >
+      {loading ? "로그인 중..." : "로그인"}
+    </LoginBtn>
   );
 };
 
-const Login = styled.button`
+export default LoginButton;
+
+const LoginBtn = styled.button<{ $active: boolean }>`
   width: 346px;
   height: 48px;
-  padding: 0px 12px;
+  padding: 0 12px;
   border-radius: 5px;
   font-size: 20px;
   font-weight: 600;
   color: white;
-  background-color: ${({ theme }) => theme.color.gray[1]};
   border: none;
-  margin: 267px 0px 16px 28px;
-`;
+  margin: 267px 0 16px 28px;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
 
-export default LoginButton;
+  background-color: ${({ theme, $active }) =>
+    $active ? theme.color.main : theme.color.gray[1]};
+  cursor: ${({ $active }) => ($active ? "pointer" : "default")};
+
+  &:hover {
+    ${({ $active, theme }) =>
+      $active &&
+      `
+        background-color: ${theme.color.mainHover || theme.color.main};
+      `}
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+`;
