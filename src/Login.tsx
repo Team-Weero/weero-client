@@ -1,4 +1,3 @@
-// --- Login.tsx ---
 import styled from "@emotion/styled";
 import EmailInput from "./components/Email";
 import PasswordInput from "./components/Password";
@@ -23,18 +22,15 @@ const Login = () => {
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // 입력 여부로 "시각적 활성"만 제어
   const isActive = emailLocal.trim().length > 0 && password.trim().length > 0;
 
   const handleLogin = async () => {
-    if (loading) return; // 로딩 중 중복 방지
+    if (loading) return;
 
-    // 먼저 에러 초기화
     setEmailError(null);
     setPasswordError(null);
     setFormError(null);
 
-    // ✅ 비어있으면 에러 세팅하고 즉시 반환 (버튼은 클릭 가능해야 함)
     let hasError = false;
     if (!emailLocal.trim()) {
       setEmailError("이메일을 입력해 주세요");
@@ -51,7 +47,6 @@ const Login = () => {
     setLoading(true);
     try {
       await loginApi(fullEmail, password);
-      // TODO: 로그인 성공 처리
     } catch (err: any) {
       switch (err?.code) {
         case "EMAIL_NOT_FOUND":
@@ -69,7 +64,7 @@ const Login = () => {
   };
 
   return (
-    <>
+    <form onSubmit={handleLogin}>
       <Text>
         <LoginText>
           <Title>Weero</Title>에 로그인
@@ -99,19 +94,18 @@ const Login = () => {
 
       {formError && <FormError role="alert">{formError}</FormError>}
 
-      {/* ⛔ disabled prop 넘기지 마세요! */}
+      {/* disabled prop 넘기지 마세요! */}
       <LoginButton active={isActive} loading={loading} onClick={handleLogin} />
 
       <Mvsignup>
         아직 계정이 없으신가요? <Link to="/signup">회원가입</Link>
       </Mvsignup>
-    </>
+    </form>
   );
 };
 
 export default Login;
 
-/* styled 그대로 */
 const LoginText = styled.h1`
   margin-top: 189px;
   font-size: 32px;
