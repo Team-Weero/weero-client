@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import styled from "@emotion/styled";
 import OpenEye from "../assets/open-eye.svg";
 import CloseEye from "../assets/close-eye.svg";
@@ -12,6 +12,8 @@ type PasswordInputProps = {
 
 const PasswordInput = ({ label, value, onChange, error }: PasswordInputProps) => {
   const [visible, setVisible] = useState(false);
+  const inputId = useId();
+  const errorId = `${inputId}-error`;
 
   const toggleVisible = () => setVisible((v) => !v);
 
@@ -20,12 +22,13 @@ const PasswordInput = ({ label, value, onChange, error }: PasswordInputProps) =>
       <Password>{label}</Password>
       <InputWrapper aria-invalid={!!error}>
         <Input
+          id={inputId}
           type={visible ? "text" : "password"}
           placeholder="비밀번호를 입력하세요"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           aria-invalid={!!error}
-          aria-describedby={error ? "password-error" : undefined}
+          aria-describedby={error ? errorId : undefined}
         />
         <IconButton
           type="button"
@@ -39,7 +42,7 @@ const PasswordInput = ({ label, value, onChange, error }: PasswordInputProps) =>
       </InputWrapper>
 
       {error && (
-        <ErrorText id="password-error" role="alert">
+        <ErrorText id={errorId} role="alert">
           {error}
         </ErrorText>
       )}

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Link as RouterLink } from "react-router-dom";
-import VectorIcon from "./assets/Vector.svg";
+import VectorIcon from "../assets/Vector.svg";
 
 type MenuItemProps = {
   label: string;
@@ -18,7 +18,7 @@ export const MenuItem = ({ label, to, onClickIcon }: MenuItemProps) => {
           <RightIcon src={VectorIcon} alt="" />
         </IconLink>
       ) : (
-        <IconButton type="button" onClick={onClickIcon}>
+        <IconButton type="button" onClick={onClickIcon} aria-label={label}>
           <RightIcon src={VectorIcon} alt="" />
         </IconButton>
       )}
@@ -26,14 +26,12 @@ export const MenuItem = ({ label, to, onClickIcon }: MenuItemProps) => {
   );
 };
 
-/* ================= styled ================= */
-
 const MenuRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  width: calc(100% - 40px); /* 좌우 20px 여백 */
+  width: calc(100% - 40px);
   margin-top: 24px;
 
   font-size: 16px;
