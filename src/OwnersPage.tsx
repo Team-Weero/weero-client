@@ -172,7 +172,8 @@ const SectionTitle = styled.h2`
 
 const MenuRow = styled.div`
   margin-top: 24px;
-
+  display: flex;
+  align-items: center;
   font-size: 16px;
   font-weight: 600;
   color: #000000;

@@ -153,6 +153,8 @@ const SectionTitle = styled.h2`
 `;
 
 const MenuRow = styled.div`
+  display: flex;
+  align-items: center;
   margin-top: 24px;
 
   font-size: 16px;
@@ -160,9 +162,7 @@ const MenuRow = styled.div`
   color: #000000;
 `;
 
-const MenuText = styled.span`
-  flex: 1;
-`;
+const MenuText = styled.span``;
 
 const RightIcon = styled.img`
   margin-top: 5px;
@@ -185,7 +185,6 @@ const IconButton = styled.button`
   cursor: pointer;
 `;
 
-// 배경 어둡게 (40%)
 const DimmedOverlay = styled.div`
   position: fixed;
   inset: 0;

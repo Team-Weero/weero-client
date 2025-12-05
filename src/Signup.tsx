@@ -10,12 +10,7 @@ import { useState } from "react";
 const DOMAIN = "@dsm.hs.kr";
 
 async function signupApi(params: { studentId: string; email: string; password: string }) {
-  const { studentId, email, password } = params;
-
-  if (!/^\d{4}$/.test(studentId)) throw { code: "BAD_STUDENT_ID" };
-  if (email.startsWith("wee")) throw { code: "EMAIL_EXISTS" };
-  if (password.length < 8) throw { code: "WEAK_PASSWORD" };
-
+  //백엔드 API 연결 필요
   return { ok: true };
 }
 
@@ -32,10 +27,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
 
   const isActive =
-    studentId.trim().length > 0 &&
-    name.trim().length > 0 &&
-    emailLocal.trim().length > 0 &&
-    password.trim().length > 0;
+    studentId.trim().length > 0 && name.trim().length > 0 && emailLocal.trim().length > 0 && password.trim().length > 0;
 
   const validate = () => {
     let ok = true;
@@ -101,7 +93,6 @@ const Signup = () => {
         email: fullEmail,
         password,
       });
-      
     } catch (err: any) {
       switch (err?.code) {
         case "BAD_STUDENT_ID":

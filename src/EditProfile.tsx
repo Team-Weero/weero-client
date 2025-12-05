@@ -36,11 +36,11 @@ const EditProfile = ({ name = "김위로", nickname = "주문하신 하마", ema
     setNicknameValue(next);
   };
 
-const handleSubmit = () => {
-  if (!isDirty) return;
-  setDisplayName(nameValue);
-  navigate("/mypage", { state: { toastMessage: "✅ 성공적으로 변경되었습니다!" } });
-};
+  const handleSubmit = () => {
+    if (!isDirty) return;
+    setDisplayName(nameValue);
+    navigate("/mypage", { state: { toastMessage: "✅ 성공적으로 변경되었습니다!" } });
+  };
 
   return (
     <>
@@ -91,7 +91,7 @@ const handleSubmit = () => {
 
       <ConfirmModal
         open={isCancelModalOpen}
-        message="회원번호 수정을 취소하시겠습니까?"
+        message="회원정보 수정을 취소하시겠습니까?"
         cancelLabel="취소"
         confirmLabel="확인"
         onCancel={() => setIsCancelModalOpen(false)}

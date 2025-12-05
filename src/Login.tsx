@@ -4,9 +4,12 @@ import PasswordInput from "./components/Password";
 import LoginButton from "./components/LoginButton";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import Toast from "./components/Toast";
 
 const DOMAIN = "@dsm.hs.kr";
 
+// TODO: Replace with actual API call before production
 async function loginApi(email: string, password: string) {
   if (!email.endsWith(DOMAIN)) throw { code: "EMAIL_NOT_FOUND" };
   if (password !== "1234") throw { code: "WRONG_PASSWORD" };
@@ -21,10 +24,13 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const toastMessage = location.state?.toastMessage;
 
   const isActive = emailLocal.trim().length > 0 && password.trim().length > 0;
 
-  const handleLogin = async () => {
+  const handleLogin = async (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
     if (loading) return;
 
     setEmailError(null);
@@ -64,43 +70,46 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <Text>
-        <LoginText>
-          <Title>Weero</Title>에 로그인
-        </LoginText>
-        <Dsm>학교 이메일로 로그인 하세요</Dsm>
-      </Text>
+    <>
+      {toastMessage && <Toast message={toastMessage} />}
+      <form onSubmit={handleLogin}>
+        <Text>
+          <LoginText>
+            <Title>Weero</Title>에 로그인
+          </LoginText>
+          <Dsm>학교 이메일로 로그인 하세요</Dsm>
+        </Text>
 
-      <EmailInput
-        value={emailLocal}
-        onChange={(v) => {
-          setEmailLocal(v);
-          if (emailError) setEmailError(null);
-        }}
-        error={emailError}
-        domain={DOMAIN}
-      />
+        <EmailInput
+          value={emailLocal}
+          onChange={(v) => {
+            setEmailLocal(v);
+            if (emailError) setEmailError(null);
+          }}
+          error={emailError}
+          domain={DOMAIN}
+        />
 
-      <PasswordInput
-        label="비밀번호"
-        value={password}
-        onChange={(v) => {
-          setPassword(v);
-          if (passwordError) setPasswordError(null);
-        }}
-        error={passwordError}
-      />
+        <PasswordInput
+          label="비밀번호"
+          value={password}
+          onChange={(v) => {
+            setPassword(v);
+            if (passwordError) setPasswordError(null);
+          }}
+          error={passwordError}
+        />
 
-      {formError && <FormError role="alert">{formError}</FormError>}
+        {formError && <FormError role="alert">{formError}</FormError>}
 
-      {/* disabled prop 넘기지 마세요! */}
-      <LoginButton active={isActive} loading={loading} onClick={handleLogin} />
+        {/* disabled prop 넘기지 마세요! */}
+        <LoginButton active={isActive} loading={loading} onClick={handleLogin} />
 
-      <Mvsignup>
-        아직 계정이 없으신가요? <Link to="/signup">회원가입</Link>
-      </Mvsignup>
-    </form>
+        <Mvsignup>
+          아직 계정이 없으신가요? <Link to="/signup">회원가입</Link>
+        </Mvsignup>
+      </form>
+    </>
   );
 };
 
