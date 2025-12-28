@@ -14,6 +14,7 @@ import MyPosts from "./MyPosts";
 import EditProfile from "./EditProfile";
 import OwnersPage from "./OwnersPage";
 import HomePage from "./page/HomePage";
+import CounselApply from "./page/CounselApply";
 import ChatHome from "./page/ChatHome";
 import ChatPage from "./page/ChatPage";
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/alarm" element={<AlarmPage />} />
         <Route path="/home-page" element={<HomePage />} />
+        <Route path="counsel-apply" element={<CounselApply />} />
         <Route path="chat-home" element={<ChatHome />} />
         <Route path="/chat-page" element={<ChatPage />} />
         <Route path="/login" element={<Login />} />
