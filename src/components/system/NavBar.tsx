@@ -15,10 +15,6 @@ const NavBar = ({ text }: Prop) => {
       link: "/",
     },
     {
-      item: "게시판",
-      link: "/community",
-    },
-    {
       item: "또상 게시판",
       link: "/wee-community",
     },
@@ -115,7 +111,7 @@ const NavSection = styled.section`
   border-bottom: 1px solid ${theme.color.gray[3]};
 `;
 const NavContainer = styled.div`
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: column;
 `;
