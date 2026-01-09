@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { theme } from "../style/theme";
 import NavBar from "../components/system/NavBar";
-import Banner from "../components/system/Banner";
 import { useState } from "react";
 import LeftArrow from "../assets/arrow-left.svg";
 import RightArrow from "../assets/arrow-right.svg";

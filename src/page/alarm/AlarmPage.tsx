@@ -1,10 +1,8 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import arrow from "../../assets/arrow.svg";
 import { theme } from "../../style/theme";
 import AlarmContainer from "../../components/alarm/AlarmContainer";
-import AlarmItem from "../../components/alarm/AlarmItem";
 
 const AlarmPage = () => {
   return (

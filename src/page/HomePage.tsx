@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { theme } from "../style/theme";
 import NavBar from "../components/system/NavBar";
 import Banner from "../components/system/Banner";
-import { useState } from "react";
 import RecentWorryList from "../components/home/RecentWorryList";
 
 const HomePage = () => {
