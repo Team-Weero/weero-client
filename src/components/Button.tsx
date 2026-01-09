@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { theme } from "../style/theme";
-import { useState } from "react";
 
 interface ConsultationType {
   id: string;
@@ -94,7 +93,7 @@ const TypeButton = styled.button<{ selected: boolean }>`
   &:focus {
     outline: none;
     border-color: ${theme.color.main};
-
+  }
 `;
 
 const Title = styled.div<{ selected: boolean }>`

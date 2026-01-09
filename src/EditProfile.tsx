@@ -5,7 +5,6 @@ import PageHeader from "./components/Header";
 import CancelButton from "./components/Cancel";
 import ChangeButton from "./components/Change";
 import ConfirmModal from "./components/ConfirmModal";
-import Toast from "./components/Toast";
 
 type Props = {
   name?: string;
@@ -13,9 +12,18 @@ type Props = {
   email?: string;
 };
 
-const randomNicknames = ["주문하신 하마", "외로운 스코티시폴드", "공부하는 너구리", "밤샘하는 펭귄"];
+const randomNicknames = [
+  "주문하신 하마",
+  "외로운 스코티시폴드",
+  "공부하는 너구리",
+  "밤샘하는 펭귄",
+];
 
-const EditProfile = ({ name = "김위로", nickname = "주문하신 하마", email = "" }: Props) => {
+const EditProfile = ({
+  name = "김위로",
+  nickname = "주문하신 하마",
+  email = "",
+}: Props) => {
   const navigate = useNavigate();
 
   const initialName = name;
@@ -28,18 +36,25 @@ const EditProfile = ({ name = "김위로", nickname = "주문하신 하마", ema
   const [displayName, setDisplayName] = useState(initialName);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
 
-  const isDirty = nameValue !== initialName || nicknameValue !== initialNickname || emailValue !== initialEmail;
+  const isDirty =
+    nameValue !== initialName ||
+    nicknameValue !== initialNickname ||
+    emailValue !== initialEmail;
 
   const handleRandomNickname = () => {
     const candidates = randomNicknames.filter((n) => n !== nicknameValue);
-    const next = candidates[Math.floor(Math.random() * candidates.length)] || nicknameValue;
+    const next =
+      candidates[Math.floor(Math.random() * candidates.length)] ||
+      nicknameValue;
     setNicknameValue(next);
   };
 
   const handleSubmit = () => {
     if (!isDirty) return;
     setDisplayName(nameValue);
-    navigate("/mypage", { state: { toastMessage: "✅ 성공적으로 변경되었습니다!" } });
+    navigate("/mypage", {
+      state: { toastMessage: "✅ 성공적으로 변경되었습니다!" },
+    });
   };
 
   return (
@@ -56,7 +71,11 @@ const EditProfile = ({ name = "김위로", nickname = "주문하신 하마", ema
 
         <FieldGroup>
           <FieldLabel>이름</FieldLabel>
-          <TextInput value={nameValue} onChange={(e) => setNameValue(e.target.value)} placeholder="이름을 입력하세요" />
+          <TextInput
+            value={nameValue}
+            onChange={(e) => setNameValue(e.target.value)}
+            placeholder="이름을 입력하세요"
+          />
           <FieldDivider />
         </FieldGroup>
 

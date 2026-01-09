@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { theme } from "../style/theme";
-import { useState } from "react";
 
 interface TimeSlot {
   id: string;
