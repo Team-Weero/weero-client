@@ -16,6 +16,7 @@ import HomePage from "./page/HomePage";
 import CounselApply from "./page/CounselApply";
 import ChatHome from "./page/ChatHome";
 import ChatPage from "./page/ChatPage";
+import Counsel from "./page/Counsel";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
             />
           }
         />
+        <Route path="/counsel" element={<Counsel />} />
       </Routes>
     </>
   );
