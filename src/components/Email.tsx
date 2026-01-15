@@ -9,71 +9,64 @@ type Props = {
 
 const EmailInput = ({ value, onChange, error, domain = "@dsm.hs.kr" }: Props) => {
   return (
-    <Margin>
-      <Email>이메일</Email>
-      <InputWrapper>
-        <Input
-          type="text"
-          placeholder="이메일을 입력하세요"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          aria-invalid={!!error}
-          aria-describedby={error ? "email-error" : undefined}
-        />
-        <Fixed>{domain}</Fixed>
-      </InputWrapper>
-      {error && (
-        <ErrorText id="email-error" role="alert">
-          {error}
-        </ErrorText>
-      )}
-    </Margin>
+    <Field>
+      <Label>이메일</Label>
+
+      <InputArea>
+        <InputWrapper>
+          <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder="이메일을 입력하세요" />
+          <Fixed>{domain}</Fixed>
+        </InputWrapper>
+
+        {error && <ErrorText>{error}</ErrorText>}
+      </InputArea>
+    </Field>
   );
 };
 
-const Email = styled.p`
+export default EmailInput;
+
+const Field = styled.div`
+  margin-left: 28px;
+  width: 346px;
+  margin-bottom: 20px;
+`;
+
+const Label = styled.p`
   font-size: 18px;
   margin-bottom: 8px;
-  margin-top: 20px;
+`;
+
+const InputArea = styled.div`
+  position: relative;
 `;
 
 const InputWrapper = styled.div`
   display: flex;
   align-items: center;
-  width: 346px;
-  border: 1px solid;
-  border-color: ${({ theme }) => theme.color.gray[1]};
+  height: 40px;
+  border: 1px solid ${({ theme }) => theme.color.gray[1]};
   border-radius: 5px;
   padding: 0 12px;
-  height: 40px;
 `;
 
 const Input = styled.input`
+  flex: 1;
   border: none;
   outline: none;
   font-size: 16px;
-  flex: 1; /* fill remaining space safely */
-  height: 38px;
-
-  &::placeholder {
-    color: ${({ theme }) => theme.color.gray[1]};
-  }
-`;
-
-const Margin = styled.div`
-  margin-left: 28px;
 `;
 
 const Fixed = styled.span`
   margin-left: 8px;
   color: ${({ theme }) => theme.color.gray[1]};
-  font-size: 16px;
 `;
 
 const ErrorText = styled.p`
+  position: absolute;
+  right: 0;
+  bottom: -18px;
   font-size: 16px;
-  margin-top: 8px;
   color: ${({ theme }) => theme.color.error};
+  margin: 0;
 `;
-
-export default EmailInput;

@@ -10,30 +10,42 @@ import { useState } from "react";
 const DOMAIN = "@dsm.hs.kr";
 
 async function signupApi(params: { studentId: string; email: string; password: string }) {
-  //백엔드 API 연결 필요
   return { ok: true };
 }
 
 const Signup = () => {
-  const [studentId, setStudentId] = useState("");
+  const [grade, setGrade] = useState("");
+  const [classNum, setClassNum] = useState("");
+  const [number, setNumber] = useState("");
+
   const [name, setName] = useState("");
   const [emailLocal, setEmailLocal] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const [studentIdError, setStudentIdError] = useState<string | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [passwordConfirmError, setPasswordConfirmError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const studentId = `${grade}${classNum}${number.padStart(2, "0")}`;
+
   const isActive =
-    studentId.trim().length > 0 && name.trim().length > 0 && emailLocal.trim().length > 0 && password.trim().length > 0;
+    grade &&
+    classNum &&
+    number &&
+    name.trim().length > 0 &&
+    emailLocal.trim().length > 0 &&
+    password.trim().length > 0 &&
+    passwordConfirm.trim().length > 0;
 
   const validate = () => {
     let ok = true;
 
-    if (!/^\d{4}$/.test(studentId)) {
-      setStudentIdError("4자리 숫자를 입력하세요");
+    if (!grade || !classNum || !number) {
+      setStudentIdError("학번을 입력해주세요");
       ok = false;
     } else setStudentIdError(null);
 
@@ -52,6 +64,11 @@ const Signup = () => {
       ok = false;
     } else setPasswordError(null);
 
+    if (password !== passwordConfirm) {
+      setPasswordConfirmError("비밀번호가 일치하지 않습니다.");
+      ok = false;
+    } else setPasswordConfirmError(null);
+
     return ok;
   };
 
@@ -62,25 +79,7 @@ const Signup = () => {
     setNameError(null);
     setEmailError(null);
     setPasswordError(null);
-
-    let hasEmpty = false;
-    if (!studentId.trim()) {
-      setStudentIdError("4자리 숫자를 입력하세요");
-      hasEmpty = true;
-    }
-    if (!name.trim()) {
-      setNameError("이름을 입력해 주세요");
-      hasEmpty = true;
-    }
-    if (!emailLocal.trim()) {
-      setEmailError("이메일을 입력해 주세요");
-      hasEmpty = true;
-    }
-    if (!password.trim()) {
-      setPasswordError("비밀번호를 입력해 주세요");
-      hasEmpty = true;
-    }
-    if (hasEmpty) return;
+    setPasswordConfirmError(null);
 
     if (!validate()) return;
 
@@ -95,9 +94,6 @@ const Signup = () => {
       });
     } catch (err: any) {
       switch (err?.code) {
-        case "BAD_STUDENT_ID":
-          setStudentIdError("4자리 숫자를 입력하세요");
-          break;
         case "EMAIL_EXISTS":
           setEmailError("이미 존재하는 사용자입니다");
           break;
@@ -122,10 +118,13 @@ const Signup = () => {
       </Text>
 
       <NumInput
-        value={studentId}
-        onChange={(v) => {
-          const onlyDigits = v.replace(/\D/g, "").slice(0, 4);
-          setStudentId(onlyDigits);
+        grade={grade}
+        classNum={classNum}
+        number={number}
+        onChange={({ grade, classNum, number }) => {
+          setGrade(grade);
+          setClassNum(classNum);
+          setNumber(number);
           if (studentIdError) setStudentIdError(null);
         }}
         error={studentIdError}
@@ -159,6 +158,17 @@ const Signup = () => {
         }}
         error={passwordError}
       />
+
+      <PasswordInput
+        label="비밀번호 확인"
+        value={passwordConfirm}
+        onChange={(v) => {
+          setPasswordConfirm(v);
+          if (passwordConfirmError) setPasswordConfirmError(null);
+        }}
+        error={passwordConfirmError}
+      />
+
       <SignButton active={isActive} loading={loading} onClick={handleSignup} />
 
       <Mvlogin>
