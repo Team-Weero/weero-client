@@ -7,6 +7,7 @@ import ChatIcon from "./assets/chat.svg";
 import ConfirmModal from "./components/ConfirmModal";
 import { useState, useEffect } from "react";
 import Toast from "./components/Toast";
+import { useNavigate } from "react-router-dom";
 
 type Post = {
   id: number;
@@ -18,7 +19,6 @@ type Post = {
   createdAt: string;
 };
 
-// posts는 현재 로그인한 사용자의 게시글만 필터링
 type Props = {
   posts?: Post[];
 };
@@ -36,6 +36,8 @@ const dummyPosts: Post[] = [
 ];
 
 const MyPosts = ({ posts = dummyPosts }: Props) => {
+  const navigate = useNavigate();
+
   const [postList, setPostList] = useState<Post[]>(posts);
   const [menuPostId, setMenuPostId] = useState<number | null>(null);
   const [targetPostId, setTargetPostId] = useState<number | null>(null);
@@ -72,9 +74,16 @@ const MyPosts = ({ posts = dummyPosts }: Props) => {
     setTargetPostId(null);
   };
 
+  const handleEditPost = (id: number) => {
+    setMenuPostId(null);
+    // 🔽 나중에 퍼블리싱/상세 페이지와 머지할 경로
+    navigate(`/posts/${id}/edit`);
+  };
+
   return (
     <>
       {toastMessage && <Toast message={toastMessage} />}
+
       <Wrapper>
         <PageHeader title="게시글 관리" />
 
@@ -87,13 +96,21 @@ const MyPosts = ({ posts = dummyPosts }: Props) => {
               <PostItem key={post.id}>
                 <PostHeaderRow>
                   <PostTitle>{post.title}</PostTitle>
-                  <DotButton aria-label="게시글 옵션 열기" onClick={() => handleClickDot(post.id)}>
+
+                  <DotButton onClick={() => handleClickDot(post.id)} aria-label="게시글 옵션">
                     <DotIcon src={DotMenuIcon} alt="" />
                   </DotButton>
+
                   {menuPostId === post.id && (
-                    <DeletePopover>
-                      <DeleteMenuButton onClick={() => openDeleteConfirm(post.id)}>삭제하기</DeleteMenuButton>
-                    </DeletePopover>
+                    <MenuPopover>
+                      <MenuButton onClick={() => handleEditPost(post.id)}>
+                        수정하기
+                      </MenuButton>
+                      <MenuDivider />
+                      <MenuButton onClick={() => openDeleteConfirm(post.id)}>
+                        삭제하기
+                      </MenuButton>
+                    </MenuPopover>
                   )}
                 </PostHeaderRow>
 
@@ -123,6 +140,7 @@ const MyPosts = ({ posts = dummyPosts }: Props) => {
             ))}
           </PostList>
         </Inner>
+
         <ConfirmModal
           open={isDeleteModalOpen}
           message="게시물을 삭제하시겠습니까?"
@@ -172,31 +190,6 @@ const PostHeaderRow = styled.div`
   align-items: flex-start;
 `;
 
-const DeletePopover = styled.div`
-  position: absolute;
-  top: 32px;
-  right: 12px;
-
-  width: 80px;
-  height: 39px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #ffffff;
-  border-radius: 3px;
-  border: 1px solid ${({ theme }) => theme.color.gray[3]};
-`;
-
-const DeleteMenuButton = styled.button`
-  border: 1px;
-  background: transparent;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-`;
-
 const PostTitle = styled.h2`
   font-size: 15px;
   font-weight: 600;
@@ -213,6 +206,40 @@ const DotButton = styled.button`
 const DotIcon = styled.img`
   width: 20px;
   height: 20px;
+`;
+
+const MenuPopover = styled.div`
+  position: absolute;
+  top: 32px;
+  right: 12px;
+
+  width: 88px;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #ffffff;
+  border-radius: 6px;
+  border: 1px solid ${({ theme }) => theme.color.gray[3]};
+  overflow: hidden;
+`;
+
+const MenuButton = styled.button`
+  height: 36px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: ${({ theme }) => theme.color.gray[4]};
+  }
+`;
+
+const MenuDivider = styled.div`
+  height: 1px;
+  background: ${({ theme }) => theme.color.gray[3]};
 `;
 
 const PostMetaRow = styled.div`
