@@ -7,6 +7,8 @@ import MyPage from "./Mypage";
 import MyPosts from "./MyPosts";
 import EditProfile from "./EditProfile";
 import OwnersPage from "./OwnersPage";
+import WeeCommunity from "./page/WeeCommunity";
+import HomePage from "./page/HomePage";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         path="/owner"
         element={<OwnersPage userName="김위로" userEmail="wee@dsm.hs.kr" isPeerCounselor={true} />}
       />
+      <Route path="/wee-community" element={<WeeCommunity />} />
+      <Route path="/homePage" element={<HomePage />} />
     </Routes>
   );
 }
