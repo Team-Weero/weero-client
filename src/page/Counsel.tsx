@@ -7,7 +7,7 @@ import ChatList from "../components/counsel/ChatList";
 const Counsel = () => {
   return (
     <>
-      <NavBar text="홈" />
+      <NavBar text="상담" />
       <Banner
         SmallText="DSM 학생들을 위한 따뜻한 상담 서비스"
         BigText="Wee 위로에서"

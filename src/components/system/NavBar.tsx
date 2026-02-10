@@ -20,11 +20,11 @@ const NavBar = ({ text }: Prop) => {
     },
     {
       item: "상담",
-      link: "/councel",
+      link: "/counsel",
     },
     {
       item: "상담 신청",
-      link: "/councel-apply",
+      link: "/counsel-apply",
     },
   ];
   return (

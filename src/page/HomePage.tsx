@@ -3,8 +3,10 @@ import { theme } from "../style/theme";
 import NavBar from "../components/system/NavBar";
 import Banner from "../components/system/Banner";
 import RecentWorryList from "../components/home/RecentWorryList";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const navigate = useNavigate();
   return (
     <>
       <NavBar text="홈" />
@@ -13,12 +15,12 @@ const HomePage = () => {
         BigText="Wee 위로에서"
         EctText="만나보세요"
       />
-      <MiddleDiv>
+      <MiddleDiv onClick={() => navigate("/counsel-apply")}>
         <OneText>상담실은 언제나 열려있습니다</OneText>
         <TwoText>상담 신청하러 가기</TwoText>
       </MiddleDiv>
 
-      <RecentWorryDiv>
+      <RecentWorryDiv onClick={() => navigate("/wee-community")}>
         <WorryText>
           최근 친구들의 <P>고민</P>은?
         </WorryText>
