@@ -1,11 +1,14 @@
 import styled from "@emotion/styled";
 import { theme } from "../../style/theme";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createPost } from "../../api/posts";
 
 const WritePost = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   const handleCancel = () => {
     navigate(-1);
@@ -15,6 +18,20 @@ const WritePost = () => {
     const textarea = e.target;
     textarea.style.height = "auto";
     textarea.style.height = textarea.scrollHeight + "px";
+    setContent(e.target.value);
+  };
+
+  const handleSubmit = async () => {
+    if (!title.trim() || !content.trim()) {
+      alert("제목과 내용을 모두 입력해주세요.");
+      return;
+    }
+    try {
+      await createPost({ title, content });
+      navigate(-1);
+    } catch (e) {
+      alert("게시글 작성에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   useEffect(() => {
@@ -25,19 +42,29 @@ const WritePost = () => {
     }
   }, []);
 
+  const isActive = !!title.trim() && !!content.trim();
+
   return (
     <Container>
       <ButtonSection>
         <p onClick={handleCancel}>취소</p>
-        <PostButton>게시하기</PostButton>
+        <PostButton $active={isActive} onClick={handleSubmit}>
+          게시하기
+        </PostButton>
       </ButtonSection>
       <ContentSection>
         <TitleInput>
-          <input placeholder="제목" type="text" />
+          <input
+            placeholder="제목"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </TitleInput>
         <StyledTextarea
           ref={textareaRef}
           placeholder="내용을 입력하세요..."
+          value={content}
           onChange={handleTextareaChange}
         />
       </ContentSection>
@@ -92,14 +119,15 @@ const ContentSection = styled.section`
   align-items: center;
   gap: 16px;
 `;
-const PostButton = styled.button`
+const PostButton = styled.button<{ $active: boolean }>`
   padding: 12px 14px;
-  background-color: ${theme.color.gray[4]};
+  background-color: ${({ $active }) =>
+    $active ? theme.color.main : theme.color.gray[4]};
   border: none;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: ${theme.color.gray[1]};
+  color: ${({ $active }) => ($active ? "#fff" : theme.color.gray[1])};
   cursor: pointer;
 `;
 const ButtonSection = styled.section`

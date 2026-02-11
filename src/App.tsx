@@ -24,7 +24,7 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/wee-community" element={<WeeCommunity />} />
-        <Route path="/wee-detail" element={<WeeDetail />} />
+        <Route path="/wee-detail/:postId" element={<WeeDetail />} />
         <Route path="/write-post" element={<WritePost />} />
         <Route path="/alarm" element={<AlarmPage />} />
         {/* 홈 페이지는 이제부터 루트입니다. */}

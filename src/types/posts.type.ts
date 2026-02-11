@@ -9,3 +9,8 @@ export interface PostType {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface CreatePostRequest {
+  title: string;
+  content: string;
+}
