@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
-import PageHeader from "./components/Header";
-import DotMenuIcon from "./assets/dot.svg";
-import EyeIcon from "./assets/open-eye.svg";
-import HeartIcon from "./assets/heart.svg";
-import ChatIcon from "./assets/chat.svg";
-import ConfirmModal from "./components/ConfirmModal";
+import DotMenuIcon from "../assets/dot.svg";
+import EyeIcon from "../assets/open-eye.svg";
+import HeartIcon from "../assets/heart.svg";
+import ChatIcon from "../assets/chat.svg";
 import { useState, useEffect } from "react";
-import Toast from "./components/Toast";
 import { useNavigate } from "react-router-dom";
+import Toast from "../components/Toast";
+import PageHeader from "../components/Header";
+import ConfirmModal from "../components/ConfirmModal";
 
 type Post = {
   id: number;
@@ -97,7 +97,10 @@ const MyPosts = ({ posts = dummyPosts }: Props) => {
                 <PostHeaderRow>
                   <PostTitle>{post.title}</PostTitle>
 
-                  <DotButton onClick={() => handleClickDot(post.id)} aria-label="게시글 옵션">
+                  <DotButton
+                    onClick={() => handleClickDot(post.id)}
+                    aria-label="게시글 옵션"
+                  >
                     <DotIcon src={DotMenuIcon} alt="" />
                   </DotButton>
 
