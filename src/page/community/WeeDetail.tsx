@@ -9,12 +9,24 @@ import { PostType } from "../../types/posts.type";
 import { AnswerType } from "../../types/answers.type";
 import { useParams } from "react-router-dom";
 import { getPostDetail } from "../../api/posts";
-import { getAllPost as getAnswers } from "../../api/answers";
+import { getAnswers, createAnswer } from "../../api/answers";
 
 const WeeDetail = () => {
   const { postId } = useParams();
   const [postDetail, setPostDetail] = useState<PostType>();
   const [answers, setAnswers] = useState<AnswerType[]>([]);
+  const [commentInput, setCommentInput] = useState("");
+
+  const handleSubmitAnswer = async () => {
+    if (!postId || !commentInput.trim()) return;
+    try {
+      const newAnswer = await createAnswer(postId, commentInput);
+      setAnswers((prev) => [...prev, newAnswer]);
+      setCommentInput("");
+    } catch (e) {
+      alert("댓글 작성에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +81,12 @@ const WeeDetail = () => {
           ))}
           <InputSpacer />
         </CommentSection>
-        <BottomInput placeholder="댓글 남기기" />
+        <BottomInput
+          placeholder="댓글 남기기"
+          value={commentInput}
+          onChange={setCommentInput}
+          onSubmit={handleSubmitAnswer}
+        />
       </Container>
     </div>
   );
