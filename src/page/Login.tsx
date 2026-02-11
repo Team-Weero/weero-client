@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
-import EmailInput from "./components/Email";
-import PasswordInput from "./components/Password";
-import LoginButton from "./components/LoginButton";
+import EmailInput from "../components/Email";
+import PasswordInput from "../components/Password";
+import LoginButton from "../components/LoginButton";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Toast from "./components/Toast";
+import Toast from "../components/Toast";
 
 const DOMAIN = "@dsm.hs.kr";
 
@@ -62,7 +62,9 @@ const Login = () => {
           setPasswordError("비밀번호가 틀렸습니다");
           break;
         default:
-          setFormError("로그인 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요");
+          setFormError(
+            "로그인 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요",
+          );
       }
     } finally {
       setLoading(false);
@@ -103,7 +105,11 @@ const Login = () => {
         {formError && <FormError role="alert">{formError}</FormError>}
 
         {/* disabled prop 넘기지 마세요! */}
-        <LoginButton active={isActive} loading={loading} onClick={handleLogin} />
+        <LoginButton
+          active={isActive}
+          loading={loading}
+          onClick={handleLogin}
+        />
 
         <Mvsignup>
           아직 계정이 없으신가요? <Link to="/signup">회원가입</Link>

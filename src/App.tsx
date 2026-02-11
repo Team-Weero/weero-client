@@ -5,18 +5,18 @@ import WeeDetail from "./page/community/WeeDetail";
 import WritePost from "./page/community/WritePost";
 import ScrollToTop from "./components/ScrollToTop";
 import AlarmPage from "./page/alarm/AlarmPage";
-import Login from "./Login";
-import Signup from "./Signup";
-import ChangePwd from "./ChangePwd";
-import MyPage from "./Mypage";
-import MyPosts from "./MyPosts";
-import EditProfile from "./EditProfile";
-import OwnersPage from "./OwnersPage";
+import Login from "./page/Login";
 import HomePage from "./page/HomePage";
 import CounselApply from "./page/CounselApply";
 import ChatHome from "./page/ChatHome";
 import ChatPage from "./page/ChatPage";
 import Counsel from "./page/Counsel";
+import Signup from "./page/Signup";
+import ChangePwd from "./page/ChangePwd";
+import MyPage from "./page/Mypage";
+import MyPosts from "./page/MyPosts";
+import EditProfile from "./page/EditProfile";
+import OwnersPage from "./page/OwnersPage";
 
 function App() {
   return (
