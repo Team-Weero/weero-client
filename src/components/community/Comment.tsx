@@ -3,16 +3,16 @@ import { theme } from "../../style/theme";
 import blankHeart from "../../assets/heart.svg";
 
 interface Prop {
-  userName: string;
-  comment: string;
-  likes: number;
+  nickName: string;
+  answer: string;
+  likes?: number;
 }
 
-const Comment = ({ userName, comment, likes }: Prop) => {
+const Comment = ({ nickName, answer, likes }: Prop) => {
   return (
     <CommentContainer>
-      <p>{userName}</p>
-      <div>{comment}</div>
+      <p>{nickName}</p>
+      <div>{answer}</div>
       <Like>
         <img src={blankHeart} alt="" />
         {likes}

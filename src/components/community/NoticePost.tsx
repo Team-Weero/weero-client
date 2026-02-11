@@ -4,6 +4,7 @@ import view from "../../assets/open-eye.svg";
 import like from "../../assets/heart.svg";
 import comment from "../../assets/chat.svg";
 import dot from "../../assets/dot-gray.svg";
+import speaker from "../../assets/speaker_icon.svg";
 
 interface Prop {
   title: string;
@@ -14,9 +15,17 @@ interface Prop {
   timeAgo: string;
 }
 
-const Post = ({ title, views, likes, comments, nickName, timeAgo }: Prop) => {
+const NoticePost = ({
+  title,
+  views,
+  likes,
+  comments,
+  nickName,
+  timeAgo,
+}: Prop) => {
   return (
     <Container>
+      <img src={speaker} alt="공지글" />
       <Title>{title}</Title>
       <ItemWrap>
         <Item>
@@ -80,7 +89,8 @@ const Container = styled.div`
   padding: 16px;
   gap: 12px;
   border-bottom: 1px solid ${theme.color.gray[3]};
+  background-color: ${theme.color.gray[4]};
   cursor: pointer;
 `;
 
-export default Post;
+export default NoticePost;

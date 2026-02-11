@@ -6,22 +6,20 @@ import { theme } from "../../style/theme";
 import { Link } from "react-router-dom";
 
 interface Prop {
-  community: string;
   title: string;
   author: string;
   date: string;
   views: number;
 }
 
-const BoardHeader = ({ community, title, author, date, views }: Prop) => {
+const BoardHeader = ({ title, author, date, views }: Prop) => {
   return (
     <Container>
       <TopSection>
         <Link to="/wee-community">
           <img src={arrow} alt="뒤로 가기" />
         </Link>
-
-        {community}
+        또상 게시판
       </TopSection>
       <TitleSection>
         <Title>{title}</Title>

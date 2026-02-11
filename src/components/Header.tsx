@@ -11,14 +11,14 @@ const PageHeader = ({ title }: Props) => {
 
   return (
     <>
-    <HeaderBar>
-      <BackButton type="button" onClick={() => navigate("/mypage")}>
-        <img src={ArrowIcon} alt="뒤로가기" />
-      </BackButton>
+      <HeaderBar>
+        <BackButton type="button" onClick={() => navigate("/")}>
+          <img src={ArrowIcon} alt="뒤로가기" />
+        </BackButton>
 
-      <HeaderTitle>{title}</HeaderTitle>
-    </HeaderBar>
-    <Divider />
+        <HeaderTitle>{title}</HeaderTitle>
+      </HeaderBar>
+      <Divider />
     </>
   );
 };

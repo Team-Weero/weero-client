@@ -1,82 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BoardHeader from "../../components/community/BoardHeader";
 import styled from "@emotion/styled";
 import { theme } from "../../style/theme";
 import blankHeart from "../../assets/heart.svg";
 import Comment from "../../components/community/Comment";
 import BottomInput from "../../components/system/BottomInput";
-
-const PostDummy = {
-  community: "또상 게시판",
-  title: "대마고에서 살아남는 꿀팁 공유!!",
-  author: "주문하신 하마",
-  date: "2025.08.09",
-  likes: 63,
-  views: 63,
-  content: `안녕 친구들~
-빡빡이 아죠씨야~
-
-아갓어 대쉬
-브렉업더 웨이에이에
-암인마 데블
-혁명은시작되써일어나운명은우리에게
-아가러 대쉬
-
-이 몸이 죽어가서 무엇이 될꼬 하니
-봉래산 제일봉에 낙락장송 되어 있어
-백설이 만건곤할 제 독야청청 하리라
-
-동짓달 기나긴 밤을
-한 허리를`,
-};
-
-const CommentDummy = [
-  {
-    id: 1,
-    userName: "주문하신 하마",
-    comment: "감사합니다",
-    likes: 63,
-  },
-  {
-    id: 2,
-    userName: "주문하신 하마",
-    comment: "감사합니다",
-    likes: 63,
-  },
-  {
-    id: 3,
-    userName: "주문하신 하마",
-    comment: "감사합니다",
-    likes: 63,
-  },
-  {
-    id: 4,
-    userName: "주문하신 하마",
-    comment: "감사합니다",
-    likes: 63,
-  },
-  {
-    id: 5,
-    userName: "주문하신 하마",
-    comment: "감사합니다",
-    likes: 63,
-  },
-];
+import { PostType } from "../../types/posts.type";
+import { AnswerType } from "../../types/answers.type";
+import { useParams } from "react-router-dom";
+import { getPostDetail } from "../../api/posts";
+import { getAllPost as getAnswers } from "../../api/answers";
 
 const WeeDetail = () => {
+  const { postId } = useParams();
+  const [postDetail, setPostDetail] = useState<PostType>();
+  const [answers, setAnswers] = useState<AnswerType[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!postId) return;
+      const [detailRes, answersRes] = await Promise.all([
+        getPostDetail(postId),
+        getAnswers(postId),
+      ]);
+      setPostDetail(detailRes);
+      setAnswers(answersRes);
+    };
+    fetchData();
+  }, [postId]);
+
+  if (!postDetail) return null;
+
   return (
     <div>
       <Container>
         <BoardHeader
-          community={PostDummy.community}
-          title={PostDummy.title}
-          author={PostDummy.author}
-          date={PostDummy.date}
-          views={PostDummy.views}
+          title={postDetail.title}
+          author={postDetail.nickName}
+          date={postDetail.createdAt}
+          views={postDetail.views}
         />
         <ContentSection>
           <div>
-            {PostDummy.content.split("\n").map((line, idx) => (
+            {postDetail.content.split("\n").map((line: string, idx: number) => (
               <React.Fragment key={idx}>
                 {line}
                 <br />
@@ -86,19 +52,19 @@ const WeeDetail = () => {
 
           <LikeWrap>
             <Like>
-              {PostDummy.likes}
+              {postDetail.likes}
               <img src={blankHeart} alt="좋아요" />
             </Like>
           </LikeWrap>
         </ContentSection>
         <CommentSection>
           <Separate>댓글</Separate>
-          {CommentDummy.map((comment) => (
+          {answers.map((answer) => (
             <Comment
-              key={comment.id}
-              userName={comment.userName}
-              comment={comment.comment}
-              likes={comment.likes}
+              key={answer.id}
+              nickName={answer.nickName}
+              answer={answer.answer}
+              //likes={answer.like}
             />
           ))}
           <InputSpacer />
