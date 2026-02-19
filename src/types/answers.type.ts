@@ -2,5 +2,7 @@ export interface AnswerType {
   id: string;
   answer: string;
   nickName: string;
-  createdAt: Date;
+  createdAt: string;
+  heartCount: number;
+  hearted: boolean;
 }

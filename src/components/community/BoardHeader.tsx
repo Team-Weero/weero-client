@@ -12,6 +12,14 @@ interface Prop {
   views: number;
 }
 
+const formatDate = (date: string) => {
+  const d = new Date(date);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}.${m}.${day}`;
+};
+
 const BoardHeader = ({ title, author, date, views }: Prop) => {
   return (
     <Container>
@@ -26,7 +34,7 @@ const BoardHeader = ({ title, author, date, views }: Prop) => {
         <ItemWrap>
           {author}
           <img src={dot} alt="" />
-          {date}
+          {formatDate(date)}
           <img src={dot} alt="" />
           <Item>
             <img src={view} alt="" />

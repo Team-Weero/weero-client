@@ -2,8 +2,10 @@ import { client } from "./client";
 import { AnswerType } from "../types/answers.type";
 
 export const getAnswers = async (postId: string) => {
-  const res = await client.get<AnswerType[]>(`/api/answers/${postId}`);
-  return res.data;
+  const res = await client.get<{ answers: AnswerType[] }>(
+    `/api/answers/${postId}`,
+  );
+  return res.data.answers;
 };
 
 export const createAnswer = async (postId: string, answer: string) => {
@@ -11,4 +13,12 @@ export const createAnswer = async (postId: string, answer: string) => {
     answer,
   });
   return res.data;
+};
+
+export const likeAnswer = async (answerId: string) => {
+  await client.post(`/api/answers/${answerId}/heart`);
+};
+
+export const deleteAnswer = async (answerId: string) => {
+  await client.delete(`/api/answers/${answerId}`);
 };

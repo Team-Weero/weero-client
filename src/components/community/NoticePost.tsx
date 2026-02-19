@@ -25,8 +25,10 @@ const NoticePost = ({
 }: Prop) => {
   return (
     <Container>
-      <img src={speaker} alt="공지글" />
-      <Title>{title}</Title>
+      <Title>
+        <img src={speaker} alt="공지글" />
+        {title}
+      </Title>
       <ItemWrap>
         <Item>
           <img src={view} alt="view" />
@@ -81,6 +83,14 @@ const Title = styled.h1`
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
 `;
 const Container = styled.div`
   width: 100vw;

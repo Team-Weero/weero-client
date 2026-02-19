@@ -1,4 +1,4 @@
-export interface PostType {
+export interface NoticeType {
   id: string;
   title: string;
   nickName: string;
@@ -9,11 +9,11 @@ export interface PostType {
   updatedAt: string | null;
 }
 
-export interface PostDetailType extends PostType {
+export interface NoticeDetailType extends NoticeType {
   content: string;
 }
 
-export interface CreatePostRequest {
+export interface CreateNoticeRequest {
   title: string;
   content: string;
 }

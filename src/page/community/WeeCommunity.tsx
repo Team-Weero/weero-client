@@ -28,38 +28,42 @@ const WeeCommunity = () => {
       <NavBar text="또상 게시판" />
       <Banner SmallText="또래 상담부 친구들이 운영하는" BigText="또상 게시판" />
       <NameBar name="또상 게시판" />
-      {posts.map((post) => (
-        <Link
-          key={post.id}
-          to={`/wee-detail/${post.id}`}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <NoticePost
-            title={post.title}
-            views={post.views ?? 0}
-            likes={post.likes ?? 0}
-            comments={post.comments ?? 0}
-            nickName={post.nickName}
-            timeAgo={getTimeAgo(post.createdAt)}
-          />
-        </Link>
-      ))}
-      {posts.map((post) => (
-        <Link
-          key={post.id}
-          to={`/wee-detail/${post.id}`}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <Post
-            title={post.title}
-            views={post.views ?? 0}
-            likes={post.likes ?? 0}
-            comments={post.comments}
-            nickName={post.nickName}
-            timeAgo={getTimeAgo(post.createdAt)}
-          />
-        </Link>
-      ))}
+      {posts && (
+        <div>
+          {posts.map((post) => (
+            <Link
+              key={post.id}
+              to={`/wee-detail/${post.id}`}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <NoticePost
+                title={post.title}
+                views={post.viewCount}
+                likes={post.heartCount}
+                comments={0}
+                nickName={post.nickName}
+                timeAgo={getTimeAgo(post.createdAt)}
+              />
+            </Link>
+          ))}
+          {posts.map((post) => (
+            <Link
+              key={post.id}
+              to={`/wee-detail/${post.id}`}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <Post
+                title={post.title}
+                views={post.viewCount}
+                likes={post.heartCount}
+                comments={0}
+                nickName={post.nickName}
+                timeAgo={getTimeAgo(post.createdAt)}
+              />
+            </Link>
+          ))}
+        </div>
+      )}
       <Link to="/write-post">
         <CreatePost />
       </Link>

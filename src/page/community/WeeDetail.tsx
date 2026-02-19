@@ -3,41 +3,82 @@ import BoardHeader from "../../components/community/BoardHeader";
 import styled from "@emotion/styled";
 import { theme } from "../../style/theme";
 import blankHeart from "../../assets/heart.svg";
+import filledHeart from "../../assets/heart-filled.svg";
 import Comment from "../../components/community/Comment";
 import BottomInput from "../../components/system/BottomInput";
-import { PostType } from "../../types/posts.type";
+import { PostDetailType } from "../../types/posts.type";
 import { AnswerType } from "../../types/answers.type";
 import { useParams } from "react-router-dom";
-import { getPostDetail } from "../../api/posts";
-import { getAnswers, createAnswer } from "../../api/answers";
+import { getPostDetail, likePost } from "../../api/posts";
+import {
+  getAnswers,
+  createAnswer,
+  likeAnswer,
+  deleteAnswer,
+} from "../../api/answers";
 
 const WeeDetail = () => {
   const { postId } = useParams();
-  const [postDetail, setPostDetail] = useState<PostType>();
+  const [postDetail, setPostDetail] = useState<PostDetailType>();
   const [answers, setAnswers] = useState<AnswerType[]>([]);
   const [commentInput, setCommentInput] = useState("");
+
+  const fetchData = async () => {
+    if (!postId) return;
+    const [detailRes, answersRes] = await Promise.all([
+      getPostDetail(postId),
+      getAnswers(postId),
+    ]);
+    setPostDetail(detailRes);
+    setAnswers(answersRes);
+  };
 
   const handleSubmitAnswer = async () => {
     if (!postId || !commentInput.trim()) return;
     try {
-      const newAnswer = await createAnswer(postId, commentInput);
-      setAnswers((prev) => [...prev, newAnswer]);
+      await createAnswer(postId, commentInput);
       setCommentInput("");
+      const updatedAnswers = await getAnswers(postId);
+      setAnswers(updatedAnswers);
     } catch (e) {
       alert("댓글 작성에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
+  const handlePostLike = async () => {
+    if (!postId) return;
+    try {
+      await likePost(postId);
+      const updateContent = await getPostDetail(postId);
+      setPostDetail(updateContent);
+    } catch (e) {
+      alert("좋아요가 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const handleAnswerLike = async (answerId: string) => {
+    if (!postId || !answerId) return;
+    try {
+      await likeAnswer(answerId);
+      const updatedAnswers = await getAnswers(postId);
+      setAnswers(updatedAnswers);
+    } catch (e) {
+      alert("좋아요가 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const handleDeleteAnswer = async (answerId: string) => {
+    if (!postId) return;
+    try {
+      await deleteAnswer(answerId);
+      const updatedAnswers = await getAnswers(postId);
+      setAnswers(updatedAnswers);
+    } catch {
+      alert("삭제할 수 없는 댓글입니다.");
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      if (!postId) return;
-      const [detailRes, answersRes] = await Promise.all([
-        getPostDetail(postId),
-        getAnswers(postId),
-      ]);
-      setPostDetail(detailRes);
-      setAnswers(answersRes);
-    };
     fetchData();
   }, [postId]);
 
@@ -50,7 +91,7 @@ const WeeDetail = () => {
           title={postDetail.title}
           author={postDetail.nickName}
           date={postDetail.createdAt}
-          views={postDetail.views}
+          views={postDetail.viewCount}
         />
         <ContentSection>
           <div>
@@ -63,9 +104,12 @@ const WeeDetail = () => {
           </div>
 
           <LikeWrap>
-            <Like>
-              {postDetail.likes}
-              <img src={blankHeart} alt="좋아요" />
+            <Like onClick={handlePostLike}>
+              {postDetail.heartCount}
+              <img
+                src={postDetail.hearted ? filledHeart : blankHeart}
+                alt="좋아요"
+              />
             </Like>
           </LikeWrap>
         </ContentSection>
@@ -73,10 +117,13 @@ const WeeDetail = () => {
           <Separate>댓글</Separate>
           {answers.map((answer) => (
             <Comment
+              handleLike={() => handleAnswerLike(answer.id)}
               key={answer.id}
               nickName={answer.nickName}
               answer={answer.answer}
-              //likes={answer.like}
+              likes={answer.heartCount}
+              hearted={answer.hearted}
+              handleDelete={() => handleDeleteAnswer(answer.id)}
             />
           ))}
           <InputSpacer />
@@ -123,8 +170,10 @@ const Container = styled.div`
 `;
 const LikeWrap = styled.div`
   width: 100%;
+  flex-grow: 1;
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;
   img {
     width: 18px;
     height: 18px;
@@ -142,6 +191,7 @@ const Like = styled.div`
 `;
 const ContentSection = styled.section`
   width: 100%;
+  min-height: 418px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
