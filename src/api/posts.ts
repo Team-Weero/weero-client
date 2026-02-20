@@ -36,3 +36,8 @@ export const deletePost = async (postId: string) => {
 export const likePost = async (postId: string) => {
   await client.post(`/api/posts/${postId}/heart`);
 };
+
+export const getMyPost = async () => {
+  const res = await client.get<{ posts: PostType[] }>("/api/posts/my");
+  return res.data.posts;
+};
