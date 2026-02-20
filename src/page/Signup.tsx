@@ -1,15 +1,19 @@
 import styled from "@emotion/styled";
-import EmailInput from "../components/Email";
-import PasswordInput from "../components/Password";
-import NameInput from "../components/Name";
-import NumInput from "../components/NumInput";
-import SignButton from "../components/SignupButton";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
+import NumInput from "../components/NumInput";
+import NameInput from "../components/Name";
+import EmailInput from "../components/Email";
+import PasswordInput from "../components/Password";
+import SignupButton from "../components/SignupButton";
 
 const DOMAIN = "@dsm.hs.kr";
 
-async function signupApi(params: { studentId: string; email: string; password: string }) {
+async function signupApi(params: {
+  studentId: string;
+  email: string;
+  password: string;
+}) {
   return { ok: true };
 }
 
@@ -27,15 +31,17 @@ const Signup = () => {
   const [nameError, setNameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [passwordConfirmError, setPasswordConfirmError] = useState<string | null>(null);
+  const [passwordConfirmError, setPasswordConfirmError] = useState<
+    string | null
+  >(null);
   const [loading, setLoading] = useState(false);
 
   const studentId = `${grade}${classNum}${number.padStart(2, "0")}`;
 
   const isActive =
-    grade &&
-    classNum &&
-    number &&
+    !!grade &&
+    !!classNum &&
+    !!number &&
     name.trim().length > 0 &&
     emailLocal.trim().length > 0 &&
     password.trim().length > 0 &&
@@ -169,7 +175,11 @@ const Signup = () => {
         error={passwordConfirmError}
       />
 
-      <SignButton active={isActive} loading={loading} onClick={handleSignup} />
+      <SignupButton
+        active={isActive}
+        loading={loading}
+        onClick={handleSignup}
+      />
 
       <Mvlogin>
         이미 계정이 있으신가요? <Link to="/login">로그인</Link>

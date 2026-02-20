@@ -37,9 +37,11 @@ const NavBar = ({ text }: Prop) => {
               <img src={bell} alt="알림" />
             </Link>
 
-            <MypageIcon>
-              <img src={person} alt="마이페이지" />
-            </MypageIcon>
+            <Link to="/mypage">
+              <MypageIcon>
+                <img src={person} alt="마이페이지" />
+              </MypageIcon>
+            </Link>
           </IconWrap>
         </Wrap>
       </NavSection>

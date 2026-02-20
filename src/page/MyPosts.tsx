@@ -97,7 +97,10 @@ const MyPosts = ({ posts = dummyPosts }: Props) => {
                 <PostHeaderRow>
                   <PostTitle>{post.title}</PostTitle>
 
-                  <DotButton onClick={() => handleClickDot(post.id)} aria-label="게시글 옵션">
+                  <DotButton
+                    onClick={() => handleClickDot(post.id)}
+                    aria-label="게시글 옵션"
+                  >
                     <DotIcon src={DotMenuIcon} alt="" />
                   </DotButton>
 

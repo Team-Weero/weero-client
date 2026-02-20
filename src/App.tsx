@@ -17,6 +17,13 @@ import CounselApply from "./page/CounselApply";
 import ChatHome from "./page/ChatHome";
 import ChatPage from "./page/ChatPage";
 import Counsel from "./page/Counsel";
+import Signup from "./page/Signup";
+import ChangePwd from "./page/ChangePwd";
+import MyPage from "./page/Mypage";
+import MyPosts from "./page/MyPosts";
+import EditProfile from "./page/EditProfile";
+import OwnersPage from "./page/OwnersPage";
+import UpdatePost from "./page/community/UpdatePost";
 
 function App() {
   return (
@@ -24,8 +31,9 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/wee-community" element={<WeeCommunity />} />
-        <Route path="/wee-detail" element={<WeeDetail />} />
+        <Route path="/wee-detail/:postId" element={<WeeDetail />} />
         <Route path="/write-post" element={<WritePost />} />
+        <Route path="/posts/:postId/edit" element={<UpdatePost />} />
         <Route path="/alarm" element={<AlarmPage />} />
         {/* 홈 페이지는 이제부터 루트입니다. */}
         <Route path="/" element={<HomePage />} />

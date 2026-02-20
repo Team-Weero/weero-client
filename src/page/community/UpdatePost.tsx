@@ -1,14 +1,33 @@
 import styled from "@emotion/styled";
 import { theme } from "../../style/theme";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { createPost } from "../../api/posts";
+import { useNavigate, useParams } from "react-router-dom";
+import { getPostDetail, updatePost } from "../../api/posts";
 
-const WritePost = () => {
+const UpdatePost = () => {
+  const { postId } = useParams<{ postId: string }>();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  useEffect(() => {
+    if (!postId) return;
+    const fetchPost = async () => {
+      const post = await getPostDetail(postId);
+      setTitle(post.title);
+      setContent(post.content);
+    };
+    fetchPost();
+  }, [postId]);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height =
+        textareaRef.current.scrollHeight + "px";
+    }
+  }, [content]);
 
   const handleCancel = () => {
     navigate(-1);
@@ -22,25 +41,18 @@ const WritePost = () => {
   };
 
   const handleSubmit = async () => {
+    if (!postId) return;
     if (!title.trim() || !content.trim()) {
       alert("제목과 내용을 모두 입력해주세요.");
       return;
     }
     try {
-      await createPost({ title, content });
-      navigate(-1);
+      await updatePost(postId, { title, content });
+      navigate(`/wee-detail/${postId}`);
     } catch (e) {
-      alert("게시글 작성에 실패했습니다. 다시 시도해주세요.");
+      alert("게시글 수정에 실패했습니다. 다시 시도해주세요.");
     }
   };
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height =
-        textareaRef.current.scrollHeight + "px";
-    }
-  }, []);
 
   const isActive = !!title.trim() && !!content.trim();
 
@@ -49,7 +61,7 @@ const WritePost = () => {
       <ButtonSection>
         <p onClick={handleCancel}>취소</p>
         <PostButton $active={isActive} onClick={handleSubmit}>
-          게시하기
+          수정하기
         </PostButton>
       </ButtonSection>
       <ContentSection>
@@ -151,4 +163,4 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-export default WritePost;
+export default UpdatePost;

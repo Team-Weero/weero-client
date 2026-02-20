@@ -6,29 +6,35 @@ import { theme } from "../../style/theme";
 import { Link } from "react-router-dom";
 
 interface Prop {
-  community: string;
   title: string;
   author: string;
   date: string;
   views: number;
 }
 
-const BoardHeader = ({ community, title, author, date, views }: Prop) => {
+const formatDate = (date: string) => {
+  const d = new Date(date);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}.${m}.${day}`;
+};
+
+const BoardHeader = ({ title, author, date, views }: Prop) => {
   return (
     <Container>
       <TopSection>
         <Link to="/wee-community">
           <img src={arrow} alt="뒤로 가기" />
         </Link>
-
-        {community}
+        또상 게시판
       </TopSection>
       <TitleSection>
         <Title>{title}</Title>
         <ItemWrap>
           {author}
           <img src={dot} alt="" />
-          {date}
+          {formatDate(date)}
           <img src={dot} alt="" />
           <Item>
             <img src={view} alt="" />

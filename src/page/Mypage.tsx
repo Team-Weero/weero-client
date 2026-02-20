@@ -3,9 +3,9 @@ import { Link as RouterLink } from "react-router-dom";
 import VectorIcon from "../assets/Vector.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PageHeader from "../components/Header";
-import Toast from "../components/Toast";
 import { useLocation } from "react-router-dom";
+import Toast from "../components/Toast";
+import PageHeader from "../components/Header";
 
 type Props = {
   userName: string;
@@ -75,7 +75,11 @@ const MyPage = ({ userName, userEmail }: Props) => {
 
           <MenuRow>
             <MenuText>로그아웃</MenuText>
-            <IconButton type="button" onClick={() => setIsLogoutOpen(true)} aria-label="로그아웃">
+            <IconButton
+              type="button"
+              onClick={() => setIsLogoutOpen(true)}
+              aria-label="로그아웃"
+            >
               <RightIcon src={VectorIcon} alt="" />
             </IconButton>
           </MenuRow>
@@ -87,8 +91,12 @@ const MyPage = ({ userName, userEmail }: Props) => {
             <ModalWrapper role="dialog" aria-modal="true">
               <ModalText>로그아웃 하시겠습니까?</ModalText>
               <ModalButtons>
-                <CancelButton onClick={() => setIsLogoutOpen(false)}>취소</CancelButton>
-                <LogoutButton onClick={handleConfirmLogout}>로그아웃</LogoutButton>
+                <CancelButton onClick={() => setIsLogoutOpen(false)}>
+                  취소
+                </CancelButton>
+                <LogoutButton onClick={handleConfirmLogout}>
+                  로그아웃
+                </LogoutButton>
               </ModalButtons>
             </ModalWrapper>
           </>

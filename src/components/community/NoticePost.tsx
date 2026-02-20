@@ -5,6 +5,7 @@ import like from "../../assets/heart.svg";
 import likefilled from "../../assets/heart-filled.svg";
 import comment from "../../assets/chat.svg";
 import dot from "../../assets/dot-gray.svg";
+import speaker from "../../assets/speaker_icon.svg";
 
 interface Prop {
   title: string;
@@ -16,10 +17,21 @@ interface Prop {
   hearted?: boolean;
 }
 
-const Post = ({ title, views, likes, comments, nickName, timeAgo, hearted }: Prop) => {
+const NoticePost = ({
+  title,
+  views,
+  likes,
+  comments,
+  nickName,
+  timeAgo,
+  hearted,
+}: Prop) => {
   return (
     <Container>
-      <Title>{title}</Title>
+      <Title>
+        <img src={speaker} alt="공지글" />
+        {title}
+      </Title>
       <ItemWrap>
         <Item>
           <img src={view} alt="view" />
@@ -77,6 +89,14 @@ const Title = styled.h1`
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
 `;
 const Container = styled.div`
   width: 100vw;
@@ -85,7 +105,8 @@ const Container = styled.div`
   padding: 16px;
   gap: 12px;
   border-bottom: 1px solid ${theme.color.gray[3]};
+  background-color: ${theme.color.gray[4]};
   cursor: pointer;
 `;
 
-export default Post;
+export default NoticePost;
