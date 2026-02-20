@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "@emotion/styled";
 import { theme } from "../../style/theme";
 import view from "../../assets/open-eye.svg";
@@ -5,6 +6,7 @@ import like from "../../assets/heart.svg";
 import likefilled from "../../assets/heart-filled.svg";
 import comment from "../../assets/chat.svg";
 import dot from "../../assets/dot-gray.svg";
+import kebab from "../../assets/kebab.svg";
 
 interface Prop {
   title: string;
@@ -14,12 +16,71 @@ interface Prop {
   nickName: string;
   timeAgo: string;
   hearted?: boolean;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
-const Post = ({ title, views, likes, comments, nickName, timeAgo, hearted }: Prop) => {
+const Post = ({
+  title,
+  views,
+  likes,
+  comments,
+  nickName,
+  timeAgo,
+  hearted,
+  onEdit,
+  onDelete,
+}: Prop) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const hasMenu = !!onEdit || !!onDelete;
+
   return (
     <Container>
-      <Title>{title}</Title>
+      <TitleRow>
+        <Title>{title}</Title>
+        {hasMenu && (
+          <KebabWrapper>
+            <KebabButton
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setMenuOpen((prev) => !prev);
+              }}
+            >
+              <img src={kebab} alt="메뉴" />
+            </KebabButton>
+            {menuOpen && (
+              <DropdownMenu>
+                {onEdit && (
+                  <MenuButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setMenuOpen(false);
+                      onEdit();
+                    }}
+                  >
+                    수정하기
+                  </MenuButton>
+                )}
+                {onEdit && onDelete && <MenuDivider />}
+                {onDelete && (
+                  <DeleteButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setMenuOpen(false);
+                      onDelete();
+                    }}
+                  >
+                    삭제하기
+                  </DeleteButton>
+                )}
+              </DropdownMenu>
+            )}
+          </KebabWrapper>
+        )}
+      </TitleRow>
       <ItemWrap>
         <Item>
           <img src={view} alt="view" />
@@ -45,6 +106,67 @@ const Post = ({ title, views, likes, comments, nickName, timeAgo, hearted }: Pro
 
 const LikeNum = styled.div<{ hearted?: boolean }>`
   color: ${({ hearted }) => (hearted ? "#ff4d4d" : theme.color.gray[1])};
+`;
+const TitleRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+const KebabWrapper = styled.div`
+  position: relative;
+  flex-shrink: 0;
+`;
+const KebabButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 4px;
+  img {
+    width: 14px;
+    height: 14px;
+  }
+`;
+const DropdownMenu = styled.div`
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border: 1px solid ${theme.color.gray[3]};
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  overflow: hidden;
+`;
+const MenuButton = styled.button`
+  display: block;
+  width: 100%;
+  height: 36px;
+  background: none;
+  border: none;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: black;
+  cursor: pointer;
+  white-space: nowrap;
+`;
+const MenuDivider = styled.div`
+  height: 1px;
+  background: ${theme.color.gray[3]};
+`;
+const DeleteButton = styled.button`
+  display: block;
+  width: 100%;
+  height: 36px;
+  background: none;
+  border: none;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: ${theme.color.error};
+  cursor: pointer;
+  white-space: nowrap;
 `;
 const Author = styled.div`
   display: flex;
