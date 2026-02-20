@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Link as RouterLink } from "react-router-dom";
-import VectorIcon from "../assets/Vector.svg";
+import VectorIcon from "../assets/arrow_right.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";

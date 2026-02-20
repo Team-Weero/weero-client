@@ -17,12 +17,6 @@ import CounselApply from "./page/CounselApply";
 import ChatHome from "./page/ChatHome";
 import ChatPage from "./page/ChatPage";
 import Counsel from "./page/Counsel";
-import Signup from "./page/Signup";
-import ChangePwd from "./page/ChangePwd";
-import MyPage from "./page/Mypage";
-import MyPosts from "./page/MyPosts";
-import EditProfile from "./page/EditProfile";
-import OwnersPage from "./page/OwnersPage";
 import UpdatePost from "./page/community/UpdatePost";
 
 function App() {
