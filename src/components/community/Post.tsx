@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { theme } from "../../style/theme";
 import view from "../../assets/open-eye.svg";
 import like from "../../assets/heart.svg";
+import likefilled from "../../assets/heart-filled.svg";
 import comment from "../../assets/chat.svg";
 import dot from "../../assets/dot-gray.svg";
 
@@ -12,9 +13,10 @@ interface Prop {
   comments: number;
   nickName: string;
   timeAgo: string;
+  hearted?: boolean;
 }
 
-const Post = ({ title, views, likes, comments, nickName, timeAgo }: Prop) => {
+const Post = ({ title, views, likes, comments, nickName, timeAgo, hearted }: Prop) => {
   return (
     <Container>
       <Title>{title}</Title>
@@ -24,8 +26,8 @@ const Post = ({ title, views, likes, comments, nickName, timeAgo }: Prop) => {
           {views}
         </Item>
         <Item>
-          <img src={like} alt="like" />
-          {likes}
+          <img src={hearted ? likefilled : like} alt="like" />
+          <LikeNum hearted={hearted}>{likes}</LikeNum>
         </Item>
         <Item>
           <img src={comment} alt="comment" />
@@ -41,6 +43,9 @@ const Post = ({ title, views, likes, comments, nickName, timeAgo }: Prop) => {
   );
 };
 
+const LikeNum = styled.div<{ hearted?: boolean }>`
+  color: ${({ hearted }) => (hearted ? "#ff4d4d" : theme.color.gray[1])};
+`;
 const Author = styled.div`
   display: flex;
   flex-direction: row;
