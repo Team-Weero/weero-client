@@ -17,6 +17,7 @@ import MyPage from "./page/Mypage";
 import MyPosts from "./page/MyPosts";
 import EditProfile from "./page/EditProfile";
 import OwnersPage from "./page/OwnersPage";
+import UpdatePost from "./page/community/UpdatePost";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/wee-community" element={<WeeCommunity />} />
         <Route path="/wee-detail/:postId" element={<WeeDetail />} />
         <Route path="/write-post" element={<WritePost />} />
+        <Route path="/posts/:postId/edit" element={<UpdatePost />} />
         <Route path="/alarm" element={<AlarmPage />} />
         {/* 홈 페이지는 이제부터 루트입니다. */}
         <Route path="/" element={<HomePage />} />
