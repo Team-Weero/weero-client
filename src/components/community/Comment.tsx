@@ -47,7 +47,7 @@ const Comment = ({
         </KebabWrapper>
       </TopRow>
       <div>{answer}</div>
-      <Like onClick={handleLike}>
+      <Like hearted={hearted} onClick={handleLike}>
         <img src={hearted ? filledHeart : blankHeart} alt="" />
         {likes ? likes : 0}
       </Like>
@@ -94,12 +94,12 @@ const DeleteButton = styled.button`
   white-space: nowrap;
 `;
 
-const Like = styled.span`
+const Like = styled.span<{ hearted?: boolean }>`
   display: flex;
   flex-direction: row;
   gap: 2px;
   font-size: 12px;
-  color: ${theme.color.gray[1]};
+  color: ${({ hearted }) => (hearted ? "#ff4d4d" : theme.color.gray[1])};
   img {
     width: 14px;
     height: 14px;
