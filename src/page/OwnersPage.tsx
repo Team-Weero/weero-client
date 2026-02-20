@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import { Link as RouterLink } from "react-router-dom";
-import VectorIcon from "./assets/Vector.svg";
+import VectorIcon from "../assets/Vector.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PageHeader from "./components/Header";
-import Toast from "./components/Toast";
+import PageHeader from "../components/Header";
+import Toast from "../components/Toast";
 import { useLocation } from "react-router-dom";
 
 type Props = {
