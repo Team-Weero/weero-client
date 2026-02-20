@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
-import EmailInput from "./components/Email";
-import PasswordInput from "./components/Password";
-import NameInput from "./components/Name";
-import NumInput from "./components/NumInput";
-import SignButton from "./components/SignupButton";
+import EmailInput from "../components/Email";
+import PasswordInput from "../components/Password";
+import NameInput from "../components/Name";
+import NumInput from "../components/NumInput";
+import SignButton from "../components/SignupButton";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 

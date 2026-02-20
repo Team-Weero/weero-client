@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
-import EmailInput from "./components/Email";
-import PasswordInput from "./components/Password";
-import LoginButton from "./components/LoginButton";
+import EmailInput from "../components/Email";
+import PasswordInput from "../components/Password";
+import LoginButton from "../components/LoginButton";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Toast from "./components/Toast";
+import Toast from "../components/Toast";
 
 const DOMAIN = "@dsm.hs.kr";
 

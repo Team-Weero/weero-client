@@ -1,11 +1,11 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
-import CancelButton from "./components/Cancel";
-import ChangeButton from "./components/Change";
-import PasswordInput from "./components/Password";
+import CancelButton from "../components/Cancel"
+import ChangeButton from "../components/Change";
+import PasswordInput from "../components/Password";
 import { useNavigate } from "react-router-dom";
-import PageHeader from "./components/Header";
-import ConfirmModal from "./components/ConfirmModal";
+import PageHeader from "../components/Header";
+import ConfirmModal from "../components/ConfirmModal";
 
 const ChangePwd = () => {
   const [currentPwd, setCurrentPwd] = useState("");

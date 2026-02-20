@@ -1,10 +1,10 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import PageHeader from "./components/Header";
-import CancelButton from "./components/Cancel";
-import ChangeButton from "./components/Change";
-import ConfirmModal from "./components/ConfirmModal";
+import PageHeader from "../components/Header";
+import CancelButton from "../components/Cancel";
+import ChangeButton from "../components/Change";
+import ConfirmModal from "../components/ConfirmModal";
 
 type Props = {
   name?: string;
