@@ -25,7 +25,7 @@ const BoardHeader = ({ title, author, date, views }: Prop) => {
   return (
     <Container>
       <TopSection>
-        <img onClick={() => navigate(-1)} src={arrow} alt="뒤로 가기" />
+        <img onClick={() => navigate("/")} src={arrow} alt="뒤로 가기" />
         또상 게시판
       </TopSection>
       <TitleSection>
