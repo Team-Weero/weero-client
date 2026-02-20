@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import { Link as RouterLink } from "react-router-dom";
-import VectorIcon from "../assets/Vector.svg";
+import arrow from "../assets/arrow_right.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -44,11 +43,9 @@ const MyPage = ({ userName, userEmail }: Props) => {
         <Section>
           <SectionTitle>관리</SectionTitle>
 
-          <MenuRow>
+          <MenuRow onClick={() => navigate("/myposts")}>
             <MenuText>내 게시글 관리</MenuText>
-            <IconLink to="/myposts">
-              <RightIcon src={VectorIcon} alt="" />
-            </IconLink>
+            <RightIcon src={arrow} alt="" />
           </MenuRow>
         </Section>
 
@@ -60,17 +57,17 @@ const MyPage = ({ userName, userEmail }: Props) => {
           <SectionTitle>계정 설정</SectionTitle>
 
           <MenuRow>
-            <MenuText>회원정보 수정</MenuText>
-            <IconLink to="/profile">
-              <RightIcon src={VectorIcon} alt="" />
-            </IconLink>
+            <MenuText onClick={() => navigate("/profile")}>
+              회원정보 수정
+            </MenuText>
+            <RightIcon src={arrow} alt="" />
           </MenuRow>
 
           <MenuRow>
-            <MenuText>비밀번호 변경</MenuText>
-            <IconLink to="/change">
-              <RightIcon src={VectorIcon} alt="" />
-            </IconLink>
+            <MenuText onClick={() => navigate("/change")}>
+              비밀번호 변경
+            </MenuText>
+            <RightIcon src={arrow} alt="" />
           </MenuRow>
 
           <MenuRow>
@@ -80,7 +77,7 @@ const MyPage = ({ userName, userEmail }: Props) => {
               onClick={() => setIsLogoutOpen(true)}
               aria-label="로그아웃"
             >
-              <RightIcon src={VectorIcon} alt="" />
+              <RightIcon src={arrow} alt="" />
             </IconButton>
           </MenuRow>
         </Section>
@@ -113,7 +110,7 @@ const PageWrapper = styled.div`
 `;
 
 const Divider2 = styled.hr`
-  width: 362px;
+  width: 92%;
   border: 0;
   border-bottom: 1px solid ${({ theme }) => theme.color.gray[3]};
 `;
@@ -161,8 +158,12 @@ const SectionTitle = styled.h2`
 `;
 
 const MenuRow = styled.div`
+  height: 24px;
   display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
+  gap: 24px;
   margin-top: 24px;
 
   font-size: 16px;
@@ -175,12 +176,6 @@ const MenuText = styled.span``;
 const RightIcon = styled.img`
   margin-top: 5px;
   display: block;
-`;
-
-const IconLink = styled(RouterLink)`
-  display: inline-flex;
-  align-items: center;
-  margin-left: 24px;
 `;
 
 const IconButton = styled.button`
