@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
+import PageHeader from "../components/Header";
 import DotMenuIcon from "../assets/dot.svg";
 import EyeIcon from "../assets/open-eye.svg";
 import HeartIcon from "../assets/heart.svg";
 import ChatIcon from "../assets/chat.svg";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Toast from "../components/Toast";
-import PageHeader from "../components/Header";
 import ConfirmModal from "../components/ConfirmModal";
+import { useState, useEffect } from "react";
+import Toast from "../components/Toast";
+import { useNavigate } from "react-router-dom";
 
 type Post = {
   id: number;
