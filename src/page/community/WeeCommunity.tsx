@@ -43,6 +43,7 @@ const WeeCommunity = () => {
                 comments={0}
                 nickName={post.nickName}
                 timeAgo={getTimeAgo(post.createdAt)}
+                hearted={post.hearted}
               />
             </Link>
           ))}
@@ -59,6 +60,7 @@ const WeeCommunity = () => {
                 comments={0}
                 nickName={post.nickName}
                 timeAgo={getTimeAgo(post.createdAt)}
+                hearted={post.hearted}
               />
             </Link>
           ))}
