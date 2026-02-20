@@ -104,7 +104,7 @@ const WeeDetail = () => {
           </div>
 
           <LikeWrap>
-            <Like onClick={handlePostLike}>
+            <Like hearted={postDetail.hearted} onClick={handlePostLike}>
               {postDetail.heartCount}
               <img
                 src={postDetail.hearted ? filledHeart : blankHeart}
@@ -179,13 +179,13 @@ const LikeWrap = styled.div`
     height: 18px;
   }
 `;
-const Like = styled.div`
+const Like = styled.div<{ hearted?: boolean }>`
   display: flex;
   flex-direction: row;
   gap: 4px;
   font-size: 15px;
   font-weight: 500;
-  color: ${theme.color.gray[1]};
+  color: ${({ hearted }) => (hearted ? "#ff4d4d" : theme.color.gray[1])};
   align-items: center;
   cursor: pointer;
 `;
