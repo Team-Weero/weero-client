@@ -3,7 +3,7 @@ import arrow from "../../assets/arrow.svg";
 import dot from "../../assets/dot-gray.svg";
 import view from "../../assets/open-eye.svg";
 import { theme } from "../../style/theme";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Prop {
   title: string;
@@ -21,12 +21,11 @@ const formatDate = (date: string) => {
 };
 
 const BoardHeader = ({ title, author, date, views }: Prop) => {
+  const navigate = useNavigate();
   return (
     <Container>
       <TopSection>
-        <Link to="/wee-community">
-          <img src={arrow} alt="뒤로 가기" />
-        </Link>
+        <img onClick={() => navigate(-1)} src={arrow} alt="뒤로 가기" />
         또상 게시판
       </TopSection>
       <TitleSection>
