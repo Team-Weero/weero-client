@@ -1,26 +1,42 @@
 import styled from "@emotion/styled";
-import { Link as RouterLink } from "react-router-dom";
-import VectorIcon from "../assets/Vector.svg";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import PageHeader from "../components/Header";
+import arrow from "../assets/arrow_right.svg";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Toast from "../components/Toast";
-import { useLocation } from "react-router-dom";
+import PageHeader from "../components/Header";
+import { getCurrentUser } from "../api/auth";
 
-type Props = {
-  userName: string;
-  userEmail: string;
-};
-
-const MyPage = ({ userName, userEmail }: Props) => {
+const MyPage = () => {
   const navigate = useNavigate();
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const location = useLocation();
   const toastMessage = location.state?.toastMessage;
 
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const me = await getCurrentUser();
+
+      setUserEmail(me.email);
+      setUserName(me.name);
+    } catch {
+      // navigate("/login");
+    }
+  };
+
+  fetchUser();
+}, [navigate]);
+
   const handleConfirmLogout = () => {
-    // TODO: 여기서 실제 로그아웃 로직 (토큰 삭제 등)
-    navigate("/login"); // 로그인 페이지 경로에 맞게 수정
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+
+    navigate("/login", {
+      state: { toastMessage: "로그아웃 되었습니다" },
+    });
   };
 
   return (
@@ -31,7 +47,7 @@ const MyPage = ({ userName, userEmail }: Props) => {
 
         <UserBlock>
           <Greeting>
-            <UserName>{userName}</UserName>
+            <UserName>{userName || "사용자"}</UserName>
             <Hello> 님, 안녕하세요!</Hello>
           </Greeting>
           <Email>{userEmail}</Email>
@@ -59,18 +75,14 @@ const MyPage = ({ userName, userEmail }: Props) => {
         <Section>
           <SectionTitle>계정 설정</SectionTitle>
 
-          <MenuRow>
+          <MenuRow onClick={() => navigate("/profile")}>
             <MenuText>회원정보 수정</MenuText>
-            <IconLink to="/profile">
-              <RightIcon src={VectorIcon} alt="" />
-            </IconLink>
+            <RightIcon src={arrow} alt="" />
           </MenuRow>
 
-          <MenuRow>
+          <MenuRow onClick={() => navigate("/change")}>
             <MenuText>비밀번호 변경</MenuText>
-            <IconLink to="/change">
-              <RightIcon src={VectorIcon} alt="" />
-            </IconLink>
+            <RightIcon src={arrow} alt="" />
           </MenuRow>
 
           <MenuRow>
@@ -99,6 +111,8 @@ const MyPage = ({ userName, userEmail }: Props) => {
 };
 
 export default MyPage;
+
+/* ===== 스타일 ===== */
 
 const PageWrapper = styled.div`
   position: relative;
@@ -155,11 +169,11 @@ const SectionTitle = styled.h2`
 const MenuRow = styled.div`
   display: flex;
   align-items: center;
+  gap: 24px;
   margin-top: 24px;
-
   font-size: 16px;
   font-weight: 600;
-  color: #000000;
+  cursor: pointer;
 `;
 
 const MenuText = styled.span``;
@@ -197,19 +211,15 @@ const ModalWrapper = styled.div`
   width: 224px;
   height: 96px;
   padding: 20px 0px;
-
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   z-index: 11;
 `;
 

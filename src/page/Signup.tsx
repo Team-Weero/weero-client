@@ -1,19 +1,18 @@
 import styled from "@emotion/styled";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import NumInput from "../components/NumInput";
+import NameInput from "../components/Name";
 import EmailInput from "../components/Email";
 import PasswordInput from "../components/Password";
-import NameInput from "../components/Name";
-import NumInput from "../components/NumInput";
-import SignButton from "../components/SignupButton";
-import { Link as RouterLink } from "react-router-dom";
-import { useState } from "react";
+import SignupButton from "../components/SignupButton";
+import { signup } from "../api/auth";
 
 const DOMAIN = "@dsm.hs.kr";
 
-async function signupApi(params: { studentId: string; email: string; password: string }) {
-  return { ok: true };
-}
-
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [grade, setGrade] = useState("");
   const [classNum, setClassNum] = useState("");
   const [number, setNumber] = useState("");
@@ -72,41 +71,43 @@ const Signup = () => {
     return ok;
   };
 
-  const handleSignup = async () => {
-    if (loading) return;
+const handleSignup = async () => {
+  if (loading) return;
+  if (!validate()) return;
 
-    setStudentIdError(null);
-    setNameError(null);
-    setEmailError(null);
-    setPasswordError(null);
-    setPasswordConfirmError(null);
+  const fullEmail = `${emailLocal}${DOMAIN}`;
 
-    if (!validate()) return;
+  setLoading(true);
 
-    const fullEmail = `${emailLocal}${DOMAIN}`;
+  try {
+    await signup({
+      email: fullEmail,
+      password,
+      name,
+      authority: "STUDENT",
+      accountId: studentId,
+      nickname: name,
+      grade: Number(grade),
+      classRoom: Number(classNum),
+      number: Number(number),
+      deviceToken: "web_device_token",
+    });
 
-    setLoading(true);
-    try {
-      await signupApi({
-        studentId,
-        email: fullEmail,
-        password,
-      });
-    } catch (err: any) {
-      switch (err?.code) {
-        case "EMAIL_EXISTS":
-          setEmailError("이미 존재하는 사용자입니다");
-          break;
-        case "WEAK_PASSWORD":
-          setPasswordError("비밀번호는 8자 이상이어야 합니다");
-          break;
-        default:
-          break;
-      }
-    } finally {
-      setLoading(false);
+    alert("회원가입 성공");
+    navigate('/')
+    
+  } catch (err: any) {
+    if (err.response?.status === 409) {
+      setEmailError("이미 존재하는 이메일입니다");
+    } else if (err.response?.status === 400) {
+      alert("입력값을 확인해주세요");
+    } else {
+      alert("서버 오류입니다");
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>

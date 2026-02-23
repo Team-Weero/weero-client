@@ -35,10 +35,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/change" element={<ChangePwd />} />
-        <Route
-          path="/mypage"
-          element={<MyPage userName="김위로" userEmail="wee@dsm.hs.kr" />}
-        />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="/myposts" element={<MyPosts />} />
         <Route path="/profile" element={<EditProfile />} />
         <Route
