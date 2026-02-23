@@ -26,6 +26,7 @@ function App() {
       <Routes>
         <Route path="/wee-community" element={<WeeCommunity />} />
         <Route path="/wee-detail/:postId" element={<WeeDetail />} />
+        <Route path="/notice-detail/:noticeId" element={<WeeDetail isNotice />} />
         <Route path="/write-post" element={<WritePost />} />
         <Route path="/posts/:postId/edit" element={<UpdatePost />} />
         <Route path="/alarm" element={<AlarmPage />} />

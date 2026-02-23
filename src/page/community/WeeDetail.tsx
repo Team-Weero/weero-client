@@ -7,9 +7,11 @@ import filledHeart from "../../assets/heart-filled.svg";
 import Comment from "../../components/community/Comment";
 import BottomInput from "../../components/system/BottomInput";
 import { PostDetailType } from "../../types/posts.type";
+import { NoticeType } from "../../types/notices.type";
 import { AnswerType } from "../../types/answers.type";
 import { useParams } from "react-router-dom";
 import { getPostDetail, likePost } from "../../api/posts";
+import { getPostDetail as getNoticeDetail } from "../../api/notices";
 import {
   getAnswers,
   createAnswer,
@@ -17,13 +19,29 @@ import {
   deleteAnswer,
 } from "../../api/answers";
 
-const WeeDetail = () => {
-  const { postId } = useParams();
+interface Props {
+  isNotice?: boolean;
+}
+
+const WeeDetail = ({ isNotice = false }: Props) => {
+  const { postId, noticeId } = useParams();
   const [postDetail, setPostDetail] = useState<PostDetailType>();
+  const [notice, setNotice] = useState<NoticeType>();
   const [answers, setAnswers] = useState<AnswerType[]>([]);
   const [commentInput, setCommentInput] = useState("");
 
   const fetchData = async () => {
+    if (isNotice) {
+      if (!noticeId) return;
+      try {
+        const res = await getNoticeDetail(noticeId);
+        setNotice(res);
+      } catch {
+        setNotice(undefined);
+      }
+      return;
+    }
+
     if (!postId) return;
     const [detailRes, answersRes] = await Promise.all([
       getPostDetail(postId),
@@ -80,7 +98,33 @@ const WeeDetail = () => {
 
   useEffect(() => {
     fetchData();
-  }, [postId]);
+  }, [postId, noticeId]);
+
+  if (isNotice) {
+    if (!notice) return null;
+    return (
+      <div>
+        <Container>
+          <BoardHeader
+            title={notice.title}
+            author={notice.writerId}
+            date={notice.createdAt}
+            views={0}
+          />
+          <ContentSection>
+            <div>
+              {notice.content.split("\n").map((line: string, idx: number) => (
+                <React.Fragment key={idx}>
+                  {line}
+                  <br />
+                </React.Fragment>
+              ))}
+            </div>
+          </ContentSection>
+        </Container>
+      </div>
+    );
+  }
 
   if (!postDetail) return null;
 

@@ -1,38 +1,30 @@
-import {
-  PostType,
-  PostDetailType,
-  CreatePostRequest,
-} from "../types/posts.type";
+import { CreateNoticeRequest, NoticeType } from "../types/notices.type";
 import { client } from "./client";
 
-export const getAllPost = async () => {
-  const res = await client.get<{ posts: PostType[] }>("/api/posts");
+export const getAllNotice = async () => {
+  const res = await client.get<{ posts: NoticeType[] }>("/api/notices");
   return res.data.posts;
 };
 
 export const getPostDetail = async (postId: string) => {
-  const res = await client.get<PostDetailType>(`/api/posts/${postId}`);
+  const res = await client.get<NoticeType>(`/api/notices/${postId}`);
   return res.data;
 };
 
-export const createPost = async (payload: CreatePostRequest) => {
-  const res = await client.post<PostType>("/api/posts", payload);
+export const createPost = async (payload: CreateNoticeRequest) => {
+  const res = await client.post<NoticeType>("/api/notices", payload);
   return res.data;
 };
 
 export const updatePost = async (
   postId: string,
-  payload: CreatePostRequest,
+  payload: CreateNoticeRequest,
 ) => {
-  const res = await client.patch<PostType>(`/api/posts/${postId}`, payload);
+  const res = await client.patch<NoticeType>(`/api/notices/${postId}`, payload);
   return res.data;
 };
 
 export const deletePost = async (postId: string) => {
-  const res = await client.delete(`/api/posts/${postId}`);
+  const res = await client.delete(`/api/notices/${postId}`);
   return res.data;
-};
-
-export const likePost = async (postId: string) => {
-  await client.post(`/api/posts/${postId}/heart`);
 };
