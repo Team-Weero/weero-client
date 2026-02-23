@@ -1,13 +1,13 @@
 import axios from "axios";
 
-export const apiClient = axios.create({
+export const client = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 10000,
 });
 
-apiClient.interceptors.request.use(
+client.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -18,7 +18,7 @@ apiClient.interceptors.request.use(
   },
 );
 
-apiClient.interceptors.response.use(
+client.interceptors.response.use(
   (response) => {
     return response;
   },

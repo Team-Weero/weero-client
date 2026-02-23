@@ -1,0 +1,39 @@
+export const getTimeAgo = (createdAt: string): string => {
+  const now = new Date();
+  const createdTime = new Date(createdAt);
+
+  const diffMs = now.getTime() - createdTime.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+
+  if (diffSec < 60) {
+    return `${diffSec}초 전`;
+  }
+
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) {
+    return `${diffMin}분 전`;
+  }
+
+  const diffHour = Math.floor(diffMin / 60);
+  if (diffHour < 24) {
+    return `${diffHour}시간 전`;
+  }
+
+  const diffDay = Math.floor(diffHour / 24);
+  if (diffDay < 7) {
+    return `${diffDay}일 전`;
+  }
+
+  const diffWeek = Math.floor(diffDay / 7);
+  if (diffWeek < 5) {
+    return `${diffWeek}주 전`;
+  }
+
+  const diffMonth = Math.floor(diffDay / 30);
+  if (diffMonth < 12) {
+    return `${diffMonth}달 전`;
+  }
+
+  const diffYear = Math.floor(diffDay / 365);
+  return `${diffYear}년 전`;
+};

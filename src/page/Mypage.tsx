@@ -60,11 +60,9 @@ useEffect(() => {
         <Section>
           <SectionTitle>관리</SectionTitle>
 
-          <MenuRow>
+          <MenuRow onClick={() => navigate("/myposts")}>
             <MenuText>내 게시글 관리</MenuText>
-            <IconLink to="/myposts">
-              <RightIcon src={VectorIcon} alt="" />
-            </IconLink>
+            <RightIcon src={arrow} alt="" />
           </MenuRow>
         </Section>
 
@@ -87,8 +85,12 @@ useEffect(() => {
 
           <MenuRow>
             <MenuText>로그아웃</MenuText>
-            <IconButton type="button" onClick={() => setIsLogoutOpen(true)} aria-label="로그아웃">
-              <RightIcon src={VectorIcon} alt="" />
+            <IconButton
+              type="button"
+              onClick={() => setIsLogoutOpen(true)}
+              aria-label="로그아웃"
+            >
+              <RightIcon src={arrow} alt="" />
             </IconButton>
           </MenuRow>
         </Section>
@@ -99,8 +101,12 @@ useEffect(() => {
             <ModalWrapper role="dialog" aria-modal="true">
               <ModalText>로그아웃 하시겠습니까?</ModalText>
               <ModalButtons>
-                <CancelButton onClick={() => setIsLogoutOpen(false)}>취소</CancelButton>
-                <LogoutButton onClick={handleConfirmLogout}>로그아웃</LogoutButton>
+                <CancelButton onClick={() => setIsLogoutOpen(false)}>
+                  취소
+                </CancelButton>
+                <LogoutButton onClick={handleConfirmLogout}>
+                  로그아웃
+                </LogoutButton>
               </ModalButtons>
             </ModalWrapper>
           </>
@@ -119,7 +125,7 @@ const PageWrapper = styled.div`
 `;
 
 const Divider2 = styled.hr`
-  width: 362px;
+  width: 92%;
   border: 0;
   border-bottom: 1px solid ${({ theme }) => theme.color.gray[3]};
 `;
@@ -167,8 +173,11 @@ const SectionTitle = styled.h2`
 `;
 
 const MenuRow = styled.div`
+  height: 24px;
   display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   gap: 24px;
   margin-top: 24px;
   font-size: 16px;
@@ -181,12 +190,6 @@ const MenuText = styled.span``;
 const RightIcon = styled.img`
   margin-top: 5px;
   display: block;
-`;
-
-const IconLink = styled(RouterLink)`
-  display: inline-flex;
-  align-items: center;
-  margin-left: 24px;
 `;
 
 const IconButton = styled.button`

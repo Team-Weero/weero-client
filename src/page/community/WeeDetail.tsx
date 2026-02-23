@@ -1,82 +1,145 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BoardHeader from "../../components/community/BoardHeader";
 import styled from "@emotion/styled";
 import { theme } from "../../style/theme";
 import blankHeart from "../../assets/heart.svg";
+import filledHeart from "../../assets/heart-filled.svg";
 import Comment from "../../components/community/Comment";
 import BottomInput from "../../components/system/BottomInput";
+import { PostDetailType } from "../../types/posts.type";
+import { NoticeType } from "../../types/notices.type";
+import { AnswerType } from "../../types/answers.type";
+import { useParams } from "react-router-dom";
+import { getPostDetail, likePost } from "../../api/posts";
+import { getPostDetail as getNoticeDetail } from "../../api/notices";
+import {
+  getAnswers,
+  createAnswer,
+  likeAnswer,
+  deleteAnswer,
+} from "../../api/answers";
 
-const PostDummy = {
-  community: "또상 게시판",
-  title: "대마고에서 살아남는 꿀팁 공유!!",
-  author: "주문하신 하마",
-  date: "2025.08.09",
-  likes: 63,
-  views: 63,
-  content: `안녕 친구들~
-빡빡이 아죠씨야~
+interface Props {
+  isNotice?: boolean;
+}
 
-아갓어 대쉬
-브렉업더 웨이에이에
-암인마 데블
-혁명은시작되써일어나운명은우리에게
-아가러 대쉬
+const WeeDetail = ({ isNotice = false }: Props) => {
+  const { postId, noticeId } = useParams();
+  const [postDetail, setPostDetail] = useState<PostDetailType>();
+  const [notice, setNotice] = useState<NoticeType>();
+  const [answers, setAnswers] = useState<AnswerType[]>([]);
+  const [commentInput, setCommentInput] = useState("");
 
-이 몸이 죽어가서 무엇이 될꼬 하니
-봉래산 제일봉에 낙락장송 되어 있어
-백설이 만건곤할 제 독야청청 하리라
+  const fetchData = async () => {
+    if (isNotice) {
+      if (!noticeId) return;
+      try {
+        const res = await getNoticeDetail(noticeId);
+        setNotice(res);
+      } catch {
+        setNotice(undefined);
+      }
+      return;
+    }
 
-동짓달 기나긴 밤을
-한 허리를`,
-};
+    if (!postId) return;
+    const [detailRes, answersRes] = await Promise.all([
+      getPostDetail(postId),
+      getAnswers(postId),
+    ]);
+    setPostDetail(detailRes);
+    setAnswers(answersRes);
+  };
 
-const CommentDummy = [
-  {
-    id: 1,
-    userName: "주문하신 하마",
-    comment: "감사합니다",
-    likes: 63,
-  },
-  {
-    id: 2,
-    userName: "주문하신 하마",
-    comment: "감사합니다",
-    likes: 63,
-  },
-  {
-    id: 3,
-    userName: "주문하신 하마",
-    comment: "감사합니다",
-    likes: 63,
-  },
-  {
-    id: 4,
-    userName: "주문하신 하마",
-    comment: "감사합니다",
-    likes: 63,
-  },
-  {
-    id: 5,
-    userName: "주문하신 하마",
-    comment: "감사합니다",
-    likes: 63,
-  },
-];
+  const handleSubmitAnswer = async () => {
+    if (!postId || !commentInput.trim()) return;
+    try {
+      await createAnswer(postId, commentInput);
+      setCommentInput("");
+      const updatedAnswers = await getAnswers(postId);
+      setAnswers(updatedAnswers);
+    } catch (e) {
+      alert("댓글 작성에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
 
-const WeeDetail = () => {
+  const handlePostLike = async () => {
+    if (!postId) return;
+    try {
+      await likePost(postId);
+      const updateContent = await getPostDetail(postId);
+      setPostDetail(updateContent);
+    } catch (e) {
+      alert("좋아요가 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const handleAnswerLike = async (answerId: string) => {
+    if (!postId || !answerId) return;
+    try {
+      await likeAnswer(answerId);
+      const updatedAnswers = await getAnswers(postId);
+      setAnswers(updatedAnswers);
+    } catch (e) {
+      alert("좋아요가 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const handleDeleteAnswer = async (answerId: string) => {
+    if (!postId) return;
+    try {
+      await deleteAnswer(answerId);
+      const updatedAnswers = await getAnswers(postId);
+      setAnswers(updatedAnswers);
+    } catch {
+      alert("삭제할 수 없는 댓글입니다.");
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [postId, noticeId]);
+
+  if (isNotice) {
+    if (!notice) return null;
+    return (
+      <div>
+        <Container>
+          <BoardHeader
+            title={notice.title}
+            author={notice.writerId}
+            date={notice.createdAt}
+            views={0}
+          />
+          <ContentSection>
+            <div>
+              {notice.content.split("\n").map((line: string, idx: number) => (
+                <React.Fragment key={idx}>
+                  {line}
+                  <br />
+                </React.Fragment>
+              ))}
+            </div>
+          </ContentSection>
+        </Container>
+      </div>
+    );
+  }
+
+  if (!postDetail) return null;
+
   return (
     <div>
       <Container>
         <BoardHeader
-          community={PostDummy.community}
-          title={PostDummy.title}
-          author={PostDummy.author}
-          date={PostDummy.date}
-          views={PostDummy.views}
+          title={postDetail.title}
+          author={postDetail.nickName}
+          date={postDetail.createdAt}
+          views={postDetail.viewCount}
         />
         <ContentSection>
           <div>
-            {PostDummy.content.split("\n").map((line, idx) => (
+            {postDetail.content.split("\n").map((line: string, idx: number) => (
               <React.Fragment key={idx}>
                 {line}
                 <br />
@@ -85,25 +148,36 @@ const WeeDetail = () => {
           </div>
 
           <LikeWrap>
-            <Like>
-              {PostDummy.likes}
-              <img src={blankHeart} alt="좋아요" />
+            <Like hearted={postDetail.hearted} onClick={handlePostLike}>
+              {postDetail.heartCount}
+              <img
+                src={postDetail.hearted ? filledHeart : blankHeart}
+                alt="좋아요"
+              />
             </Like>
           </LikeWrap>
         </ContentSection>
         <CommentSection>
           <Separate>댓글</Separate>
-          {CommentDummy.map((comment) => (
+          {answers.map((answer) => (
             <Comment
-              key={comment.id}
-              userName={comment.userName}
-              comment={comment.comment}
-              likes={comment.likes}
+              handleLike={() => handleAnswerLike(answer.id)}
+              key={answer.id}
+              nickName={answer.nickName}
+              answer={answer.answer}
+              likes={answer.heartCount}
+              hearted={answer.hearted}
+              handleDelete={() => handleDeleteAnswer(answer.id)}
             />
           ))}
           <InputSpacer />
         </CommentSection>
-        <BottomInput placeholder="댓글 남기기" />
+        <BottomInput
+          placeholder="댓글 남기기"
+          value={commentInput}
+          onChange={setCommentInput}
+          onSubmit={handleSubmitAnswer}
+        />
       </Container>
     </div>
   );
@@ -140,25 +214,28 @@ const Container = styled.div`
 `;
 const LikeWrap = styled.div`
   width: 100%;
+  flex-grow: 1;
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;
   img {
     width: 18px;
     height: 18px;
   }
 `;
-const Like = styled.div`
+const Like = styled.div<{ hearted?: boolean }>`
   display: flex;
   flex-direction: row;
   gap: 4px;
   font-size: 15px;
   font-weight: 500;
-  color: ${theme.color.gray[1]};
+  color: ${({ hearted }) => (hearted ? "#ff4d4d" : theme.color.gray[1])};
   align-items: center;
   cursor: pointer;
 `;
 const ContentSection = styled.section`
   width: 100%;
+  min-height: 418px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

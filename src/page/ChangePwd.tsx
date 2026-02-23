@@ -13,7 +13,10 @@ const ChangePwd = () => {
   const [confirmPwd, setConfirmPwd] = useState("");
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
 
-  const isAllFilled = currentPwd.trim().length > 0 && newPwd.trim().length > 0 && confirmPwd.trim().length > 0;
+  const isAllFilled =
+    currentPwd.trim().length > 0 &&
+    newPwd.trim().length > 0 &&
+    confirmPwd.trim().length > 0;
 
   const handleChangePwd = () => {
     if (!isAllFilled) return;
@@ -22,7 +25,9 @@ const ChangePwd = () => {
       return;
     }
 
-    navigate("/mypage", { state: { toastMessage: "✅ 성공적으로 변경되었습니다!" } });
+    navigate("/mypage", {
+      state: { toastMessage: "✅ 성공적으로 변경되었습니다!" },
+    });
   };
 
   const navigate = useNavigate();
@@ -32,9 +37,21 @@ const ChangePwd = () => {
       <PageHeader title="비밀번호 변경" />
 
       <Pwd>
-        <PasswordInput label="기존 비밀번호" value={currentPwd} onChange={setCurrentPwd} />
-        <PasswordInput label="새로운 비밀번호" value={newPwd} onChange={setNewPwd} />
-        <PasswordInput label="새로운 비밀번호 확인" value={confirmPwd} onChange={setConfirmPwd} />
+        <PasswordInput
+          label="기존 비밀번호"
+          value={currentPwd}
+          onChange={setCurrentPwd}
+        />
+        <PasswordInput
+          label="새로운 비밀번호"
+          value={newPwd}
+          onChange={setNewPwd}
+        />
+        <PasswordInput
+          label="새로운 비밀번호 확인"
+          value={confirmPwd}
+          onChange={setConfirmPwd}
+        />
       </Pwd>
 
       <ButtonsArea>

@@ -4,7 +4,7 @@ import NavBar from "../components/system/NavBar";
 import Banner from "../components/system/Banner";
 import { useState } from "react";
 import LeftArrow from "../assets/arrow-left.svg";
-import RightArrow from "../assets/arrow-right.svg";
+import RightArrow from "../assets/arrow_right.svg";
 
 const ChatHome = () => {
   const [currentWeek, setCurrentWeek] = useState(new Date());

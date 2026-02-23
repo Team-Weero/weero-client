@@ -5,92 +5,139 @@ import Post from "../../components/community/Post";
 import Banner from "../../components/system/Banner";
 import NavBar from "../../components/system/NavBar";
 import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
+import type { PostType } from "../../types/posts.type";
+import { getAllPost } from "../../api/posts";
+import { getTimeAgo } from "../../utils/timeAgo";
+import NoticePost from "../../components/community/NoticePost";
+import type { NoticeType } from "../../types/notices.type";
+import { getAllNotice } from "../../api/notices";
+import { theme } from "../../style/theme";
 
-const dummyPosts = [
-  {
-    id: 1,
-    title: "대마고에서 살아남는 꿀팁 공유!!",
-    views: 63,
-    likes: 63,
-    comments: 63,
-    author: "주문하신 하마",
-    timeAgo: "1시간 전",
-  },
-  {
-    id: 2,
-    title: "기말고사 공부 전략 대공개",
-    views: 82,
-    likes: 45,
-    comments: 30,
-    author: "똑순이",
-    timeAgo: "2시간 전",
-  },
-  {
-    id: 3,
-    title: "카페테리아 메뉴 순위 정리!",
-    views: 104,
-    likes: 77,
-    comments: 19,
-    author: "먹짱",
-    timeAgo: "3시간 전",
-  },
-  {
-    id: 4,
-    title: "1학년 프론트엔드 개발자 TMI 모음",
-    views: 56,
-    likes: 40,
-    comments: 12,
-    author: "코딩소녀",
-    timeAgo: "4시간 전",
-  },
-  {
-    id: 5,
-    title: "하마쌤 레전드 어록 정리ㅋㅋ",
-    views: 120,
-    likes: 99,
-    comments: 58,
-    author: "유머천재",
-    timeAgo: "5시간 전",
-  },
-  {
-    id: 6,
-    title: "하마쌤 레전드 어록 정리ㅋㅋ",
-    views: 120,
-    likes: 99,
-    comments: 58,
-    author: "유머천재",
-    timeAgo: "5시간 전",
-  },
-];
+const POSTS_PER_PAGE = 10;
 
 const WeeCommunity = () => {
+  const [posts, setPosts] = useState<PostType[]>([]);
+  const [notices, setNotices] = useState<NoticeType[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    const fetchAll = async () => {
+      const [postsRes, noticesRes] = await Promise.allSettled([
+        getAllPost(),
+        getAllNotice(),
+      ]);
+      if (postsRes.status === "fulfilled") setPosts(postsRes.value ?? []);
+      if (noticesRes.status === "fulfilled") setNotices(noticesRes.value ?? []);
+    };
+
+    fetchAll();
+  }, []);
+
+  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+  const paginatedPosts = posts.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE,
+  );
+
   return (
     <Container>
       <NavBar text="또상 게시판" />
       <Banner SmallText="또래 상담부 친구들이 운영하는" BigText="또상 게시판" />
       <NameBar name="또상 게시판" />
-      {dummyPosts.map((post) => (
+
+      {notices.length > 0 &&
+        notices.map((notice) => (
+          <Link
+            key={notice.id}
+            to={`/notice-detail/${notice.id}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <NoticePost
+              title={notice.title}
+              views={0}
+              likes={0}
+              comments={0}
+              nickName={notice.writerId}
+              timeAgo={getTimeAgo(notice.createdAt)}
+            />
+          </Link>
+        ))}
+
+      {paginatedPosts.map((post) => (
         <Link
           key={post.id}
-          to="/wee-detail"
+          to={`/wee-detail/${post.id}`}
           style={{ textDecoration: "none", color: "black" }}
         >
           <Post
             title={post.title}
-            views={post.views}
-            likes={post.likes}
-            comments={post.comments}
-            author={post.author}
-            timeAgo={post.timeAgo}
+            views={post.viewCount}
+            likes={post.heartCount}
+            comments={0}
+            nickName={post.nickName}
+            timeAgo={getTimeAgo(post.createdAt)}
+            hearted={post.hearted}
           />
         </Link>
       ))}
+
+      {totalPages > 1 && (
+        <Pagination>
+          <PageButton
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+          >
+            이전
+          </PageButton>
+          <PageInfo>
+            {currentPage} / {totalPages}
+          </PageInfo>
+          <PageButton
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+          >
+            다음
+          </PageButton>
+        </Pagination>
+      )}
+
       <Link to="/write-post">
         <CreatePost />
       </Link>
     </Container>
   );
 };
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+`;
+
+const PageButton = styled.button`
+  background: none;
+  border: 1px solid ${theme.color.gray[2]};
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: ${theme.color.gray[1]};
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+`;
+
+const PageInfo = styled.span`
+  font-size: 13px;
+  font-weight: 500;
+  color: ${theme.color.gray[1]};
+`;
 
 const Container = styled.div`
   width: 100vw;
