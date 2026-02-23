@@ -6,15 +6,10 @@ import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Toast from "../components/Toast";
+import { signin } from "../api/auth";
+import { useNavigate } from "react-router-dom";; 
 
 const DOMAIN = "@dsm.hs.kr";
-
-// TODO: Replace with actual API call before production
-async function loginApi(email: string, password: string) {
-  if (!email.endsWith(DOMAIN)) throw { code: "EMAIL_NOT_FOUND" };
-  if (password !== "1234") throw { code: "WRONG_PASSWORD" };
-  return { email };
-}
 
 const Login = () => {
   const [emailLocal, setEmailLocal] = useState("");
@@ -29,47 +24,50 @@ const Login = () => {
 
   const isActive = emailLocal.trim().length > 0 && password.trim().length > 0;
 
-  const handleLogin = async (e?: React.FormEvent<HTMLFormElement>) => {
-    e?.preventDefault();
-    if (loading) return;
+  const navigate = useNavigate();
 
-    setEmailError(null);
-    setPasswordError(null);
-    setFormError(null);
+const handleLogin = async (e?: React.FormEvent<HTMLFormElement>) => {
+  e?.preventDefault();
+  if (loading) return;
 
-    let hasError = false;
-    if (!emailLocal.trim()) {
-      setEmailError("이메일을 입력해 주세요");
-      hasError = true;
+  setEmailError(null);
+  setPasswordError(null);
+  setFormError(null);
+
+  if (!emailLocal.trim()) {
+    setEmailError("이메일을 입력해 주세요");
+    return;
+  }
+  if (!password.trim()) {
+    setPasswordError("비밀번호를 입력해 주세요");
+    return;
+  }
+
+  const fullEmail = `${emailLocal}${DOMAIN}`;
+
+  setLoading(true);
+  try {
+    const data = await signin({
+      email: fullEmail,
+      password,
+    });
+
+    localStorage.setItem("access_token", data.accessToken);
+    localStorage.setItem("refresh_token", data.refreshToken);
+
+    navigate("/");
+  } catch (err: any) {
+    if (err.response?.status === 401) {
+      setFormError("이메일 또는 비밀번호가 올바르지 않습니다");
+    } else if (err.response?.status === 400) {
+      setFormError("잘못된 요청입니다");
+    } else {
+      setFormError("로그인 중 오류가 발생했습니다");
     }
-    if (!password.trim()) {
-      setPasswordError("비밀번호를 입력해 주세요");
-      hasError = true;
-    }
-    if (hasError) return;
-
-    const fullEmail = `${emailLocal}${DOMAIN}`;
-
-    setLoading(true);
-    try {
-      await loginApi(fullEmail, password);
-    } catch (err: any) {
-      switch (err?.code) {
-        case "EMAIL_NOT_FOUND":
-          setEmailError("존재하지 않는 이메일입니다");
-          break;
-        case "WRONG_PASSWORD":
-          setPasswordError("비밀번호가 틀렸습니다");
-          break;
-        default:
-          setFormError(
-            "로그인 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요",
-          );
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>
