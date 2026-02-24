@@ -1,16 +1,42 @@
 import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
 import RecentWorryItem from "./RecentWorryItem";
+import { apiClient } from "../../api/client";
 
-const dummyWorries = [
-  "프젝을 제 시간에 못 끝낸 친구.. 내가 예민한걸까?..",
-  "대마고에서 연애 잘 하는 방법 있나요",
-  "용감한 내 가방 no keyring no hand mirror oh my god",
-];
+interface Post {
+  id: string;
+  title: string;
+  createdAt: string;
+}
 
 const RecentWorryList = () => {
+  const [worries, setWorries] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await apiClient.get("/api/posts");
+
+        const latestThree = response.data.posts
+          .sort(
+            (a: Post, b: Post) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+          .slice(0, 3)
+          .map((post: Post) => post.title);
+
+        setWorries(latestThree);
+      } catch (error) {
+        console.error("게시글 불러오기 실패:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   return (
     <ListWrapper>
-      {dummyWorries.map((worry, idx) => (
+      {worries.map((worry, idx) => (
         <RecentWorryItem key={idx} text={worry} />
       ))}
     </ListWrapper>
@@ -21,5 +47,4 @@ export default RecentWorryList;
 
 const ListWrapper = styled.div`
   width: 100%;
-  /* padding: 5px 10px; */
 `;
